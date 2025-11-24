@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hồ sơ - AutoCare</title>
+    <link rel="stylesheet" href="../css/profile.css" />
+  </head>
+  <body>
+    <!-- ==================== HEADER + NAV ==================== -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h1>AutoCare</h1>
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="services.html">Dịch vụ</a></li>
+          <li><a href="products.html">Sản phẩm</a></li>
+          <li><a href="booking.html">Đặt lịch</a></li>
+
+          <li>
+            <a href="profile.html" class="active" id="profileLink">Hồ sơ</a>
+          </li>
+        </ul>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+      <div class="profile-container profile-grid">
+        <!-- Tiêu đề -->
+        <div class="profile-header">
+          <h2>Hồ sơ cá nhân</h2>
+          <p>Quản lý thông tin và lịch sử đặt dịch vụ</p>
+        </div>
+
+        <!-- Thông tin cá nhân -->
+        <div class="profile-info">
+          <div class="info-item">
+            <span class="label">Họ và tên:</span>
+            <span id="userName" class="value">Đang tải...</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Email:</span>
+            <span id="userEmail" class="value">Đang tải...</span>
+          </div>
+          <div class="info-item">
+            <span class="label">Số điện thoại:</span>
+            <span id="userPhone" class="value">Đang tải...</span>
+          </div>
+
+          <!-- Nút hành động -->
+          <div class="profile-actions">
+            <button id="editProfileBtn" class="btn btn-outline">
+              Chỉnh sửa hồ sơ
+            </button>
+            <button id="logoutBtn" class="btn btn-danger">Đăng xuất</button>
+          </div>
+        </div>
+
+        <!-- Thống kê -->
+        <div class="profile-stats">
+          <h3>Thống kê của bạn</h3>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-icon">📅</div>
+              <div class="stat-value" id="totalBookings">0</div>
+              <div class="stat-label">Tổng đặt lịch</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">✅</div>
+              <div class="stat-value" id="confirmedBookings">0</div>
+              <div class="stat-label">Đã xác nhận</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">⏳</div>
+              <div class="stat-value" id="pendingBookings">0</div>
+              <div class="stat-label">Đang chờ</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-icon">💰</div>
+              <div class="stat-value" id="totalSpent">0đ</div>
+              <div class="stat-label">Tổng chi tiêu</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lịch sử đặt lịch -->
+        <div class="profile-history">
+          <h3>Lịch sử đặt dịch vụ</h3>
+          <div id="bookingList" class="booking-list">
+            <!-- Dữ liệu sẽ được JS thêm vào -->
+          </div>
+          <p id="noBooking" class="no-data">Chưa có lịch đặt nào.</p>
+        </div>
+
+        <!-- Lịch sử đơn hàng -->
+        <div class="profile-orders">
+          <h3>Đơn hàng của tôi</h3>
+          <div id="ordersList" class="orders-list">
+            <!-- Dữ liệu sẽ được JS thêm vào -->
+          </div>
+          <p id="noOrder" class="no-data">Chưa có đơn hàng nào.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal chỉnh sửa đơn hàng -->
+    <div id="editOrderModal" class="order-modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Chỉnh sửa đơn hàng</h2>
+          <span class="close-modal" id="closeEditOrderModal">&times;</span>
+        </div>
+        <form id="editOrderForm">
+          <input type="hidden" id="editOrderId" />
+          <div class="form-group">
+            <label for="editShippingAddress">Địa chỉ giao hàng <span class="required">*</span></label>
+            <textarea id="editShippingAddress" rows="3" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="editPhone">Số điện thoại <span class="required">*</span></label>
+            <input type="tel" id="editPhone" required />
+          </div>
+          <div class="form-group">
+            <label for="editNotes">Ghi chú</label>
+            <textarea id="editNotes" rows="2"></textarea>
+          </div>
+          <div class="order-items-edit" id="orderItemsEdit">
+            <!-- Chi tiết đơn hàng sẽ được thêm vào đây -->
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="cancelEditOrderBtn">Hủy</button>
+            <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2024 AutoCare. Tất cả quyền được bảo lưu.</p>
+        <p>Hotline: 1900-xxxx | Email: support@autocare.vn</p>
+      </div>
+    </footer>
+
+    <script src="../js/script.js"></script>
+    <script src="../js/profile.js"></script>
+  </body>
+</html>

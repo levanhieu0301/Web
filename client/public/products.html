@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sản phẩm - AutoCare</title>
+    <link rel="stylesheet" href="../css/products.css" />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container">
+          <div class="nav-brand">
+            <h1>AutoCare</h1>
+          </div>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+            <li><a href="products.html" class="active">Sản phẩm</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="login.html" id="loginLink">Đăng nhập</a></li>
+            <li>
+              <a href="profile.html" id="profileLink" style="display: none"
+                >Hồ sơ</a
+              >
+            </li>
+          </ul>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="products-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Cửa hàng sản phẩm</h1>
+        <p>Phụ tùng và phụ kiện chính hãng cho xe của bạn</p>
+      </div>
+    </section>
+
+    <main class="main-content">
+      <div class="container">
+        <!-- Filter và Search -->
+        <div class="products-header">
+          <h2>Tất cả sản phẩm</h2>
+          <div class="search-box">
+            <input
+              type="text"
+              id="searchInput"
+              placeholder="Tìm kiếm sản phẩm..."
+            />
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+            >
+              <circle cx="11" cy="11" r="8"></circle>
+              <path d="m21 21-4.35-4.35"></path>
+            </svg>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div id="productsGrid" class="products-grid">
+          <!-- Sản phẩm sẽ được load bằng JS -->
+        </div>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">Đang tải sản phẩm...</div>
+
+        <!-- No products -->
+        <div id="noProducts" class="no-products" style="display: none">
+          <p>Không tìm thấy sản phẩm nào.</p>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2024 AutoCare. Tất cả quyền được bảo lưu.</p>
+        <p>Hotline: 1900-xxxx | Email: support@autocare.vn</p>
+      </div>
+    </footer>
+
+    <!-- JS -->
+    <script src="../js/script.js"></script>
+    <script src="../js/products.js"></script>
+  </body>
+</html>
+
+
+

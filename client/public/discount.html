@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tạo mã giảm giá - AutoCare Admin</title>
+    <link rel="stylesheet" href="../css/admin.css" />
+    <link rel="stylesheet" href="../css/discount.css" />
+  </head>
+  <body>
+    <!-- ==================== HEADER + NAV ==================== -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h1>
+            AutoCare <span style="font-size: 0.8rem; color: #666">(Admin)</span>
+          </h1>
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="admin.html">Quản lý</a></li>
+          <li><a href="discount.html" class="active">Mã giảm giá</a></li>
+          <li><a href="#" id="logoutLink">Đăng xuất</a></li>
+        </ul>
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+      <div class="admin-container">
+        <!-- Tiêu đề -->
+        <div class="admin-header">
+          <h2>Quản lý mã giảm giá</h2>
+          <p>Tạo và quản lý các mã giảm giá cho khách hàng</p>
+        </div>
+
+        <!-- Form tạo mã giảm giá -->
+        <div class="admin-section">
+          <h3>Tạo mã giảm giá mới</h3>
+          <form id="discountForm" class="discount-form">
+            <div class="form-group">
+              <label for="code">Mã giảm giá *</label>
+              <input
+                type="text"
+                id="code"
+                name="code"
+                placeholder="VD: SUMMER2024"
+                required
+                maxlength="20"
+              />
+              <button type="button" class="btn-generate" id="generateBtn">
+                Tạo tự động
+              </button>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="discountType">Loại giảm giá *</label>
+                <select id="discountType" name="discountType" required>
+                  <option value="percentage">Phần trăm (%)</option>
+                  <option value="fixed">Số tiền cố định (VNĐ)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="discountValue">Giá trị giảm *</label>
+                <input
+                  type="number"
+                  id="discountValue"
+                  name="discountValue"
+                  placeholder="10 hoặc 50000"
+                  required
+                  min="1"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="minOrder">Đơn hàng tối thiểu (VNĐ)</label>
+                <input
+                  type="number"
+                  id="minOrder"
+                  name="minOrder"
+                  placeholder="0"
+                  min="0"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="maxDiscount">Giảm tối đa (VNĐ)</label>
+                <input
+                  type="number"
+                  id="maxDiscount"
+                  name="maxDiscount"
+                  placeholder="Không giới hạn"
+                  min="0"
+                />
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="startDate">Ngày bắt đầu *</label>
+                <input type="date" id="startDate" name="startDate" required />
+              </div>
+
+              <div class="form-group">
+                <label for="endDate">Ngày kết thúc *</label>
+                <input type="date" id="endDate" name="endDate" required />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="usageLimit">Số lần sử dụng tối đa</label>
+              <input
+                type="number"
+                id="usageLimit"
+                name="usageLimit"
+                placeholder="Không giới hạn"
+                min="1"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="description">Mô tả</label>
+              <textarea
+                id="description"
+                name="description"
+                rows="3"
+                placeholder="Mô tả về mã giảm giá..."
+              ></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit">Tạo mã giảm giá</button>
+          </form>
+        </div>
+
+        <!-- Danh sách mã giảm giá -->
+        <div class="admin-section">
+          <h3>Danh sách mã giảm giá</h3>
+          <div class="table-container">
+            <table class="admin-table" id="discountsTable">
+              <thead>
+                <tr>
+                  <th>Mã</th>
+                  <th>Loại</th>
+                  <th>Giá trị</th>
+                  <th>Ngày bắt đầu</th>
+                  <th>Ngày kết thúc</th>
+                  <th>Đã dùng</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="discountsTableBody">
+                <!-- JS sẽ thêm dữ liệu -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/discount.js"></script>
+  </body>
+</html>
+
+

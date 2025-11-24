@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa hồ sơ - AutoCare</title>
+    <link rel="stylesheet" href="../css/auth.css" />
+    <!-- Dùng chung CSS -->
+  </head>
+  <body>
+    <!-- ==================== HEADER + NAV ==================== -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h1>AutoCare</h1>
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="services.html">Dịch vụ</a></li>
+          <li><a href="products.html">Sản Phẩm</a></li>
+          <li><a href="booking.html">Đặt lịch</a></li>
+          <li><a href="profile.html">Hồ sơ</a></li>
+        </ul>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="edit-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Chỉnh sửa hồ sơ</h1>
+        <p>Cập nhật thông tin cá nhân của bạn</p>
+      </div>
+    </section>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+      <div class="auth-container">
+        <!-- Tiêu đề -->
+        <div class="auth-tabs" style="background: var(--bg)">
+          <div
+            style="
+              padding: 1.2rem;
+              text-align: center;
+              font-weight: 600;
+              color: var(--primary);
+            "
+          >
+            Chỉnh sửa thông tin cá nhân
+          </div>
+        </div>
+
+        <!-- ==================== FORM CHỈNH SỬA (NẰM NGANG - 2 CỘT) ==================== -->
+        <div class="auth-tab-content active" style="padding: 2rem">
+          <form
+            id="editProfileForm"
+            class="auth-form register-form-horizontal"
+            novalidate
+          >
+            <!-- DÒNG 1: Họ tên + Email -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Họ và tên <span class="required">*</span></label>
+                <input
+                  type="text"
+                  id="editName"
+                  placeholder="Nguyễn Văn A"
+                  required
+                />
+                <div id="editNameError" class="error-message"></div>
+              </div>
+              <div class="form-group">
+                <label>Email <span class="required">*</span></label>
+                <input
+                  type="email"
+                  id="editEmail"
+                  placeholder="email@example.com"
+                  required
+                  disabled
+                />
+                <div id="editEmailError" class="error-message"></div>
+              </div>
+            </div>
+
+            <!-- DÒNG 2: Số điện thoại + Mật khẩu mới -->
+            <div class="form-row">
+              <div class="form-group">
+                <label>Số điện thoại <span class="required">*</span></label>
+                <input
+                  type="tel"
+                  id="editPhone"
+                  placeholder="0912345678"
+                  required
+                />
+                <div id="editPhoneError" class="error-message"></div>
+              </div>
+              <div class="form-group">
+                <label>Mật khẩu mới </label>
+                <input
+                  type="password"
+                  id="editPassword"
+                  placeholder="ít nhất 6 ký tự"
+                />
+                <div id="editPasswordError" class="error-message"></div>
+              </div>
+            </div>
+
+            <!-- DÒNG 3: Nhập lại mật khẩu -->
+            <div class="form-group full-width">
+              <label>Nhập lại mật khẩu mới</label>
+              <input type="password" id="editPasswordConfirm" />
+              <div id="editPasswordConfirmError" class="error-message"></div>
+            </div>
+
+            <!-- Chỉ sửa 1 dòng: thêm id="editSuccess" -->
+            <div
+              id="editSuccess"
+              class="success-message"
+              style="display: none; color: green; margin-bottom: 1rem"
+            >
+              Cập nhật hồ sơ thành công!
+            </div>
+
+            <div style="display: flex; gap: 1rem; margin-top: 1.5rem">
+              <button type="submit" class="btn btn-primary">
+                Lưu thay đổi
+              </button>
+              <a
+                href="profile.html"
+                class="btn btn-outline"
+                style="
+                  text-decoration: none;
+                  text-align: center;
+                  line-height: 2.8;
+                "
+              >
+                Hủy
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/edit-profile.js"></script>
+  </body>
+</html>

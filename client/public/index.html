@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dịch vụ Sửa xe & Rửa xe tại nhà - Trang chủ</title>
+    <link rel="stylesheet" href="../css/index.css" />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container">
+          <div class="nav-brand">
+            <h1>AutoCare</h1>
+          </div>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html" class="active">Trang chủ</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+            <li><a href="products.html">Sản Phẩm</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="login.html" id="loginLink">Đăng nhập</a></li>
+            <li>
+              <a href="profile.html" id="profileLink" style="display: none"
+                >Hồ sơ</a
+              >
+            </li>
+          </ul>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- HERO SLIDER -->
+    <section class="hero">
+      <div class="hero-slider" id="heroSlider">
+        <!-- Slide 1 -->
+        <div
+          class="hero-slide"
+          style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1920&q=80')"
+        >
+          <div class="hero-content">
+            <h2>Rửa xe chuyên nghiệp tại nhà</h2>
+            <p>
+              Đội ngũ thợ lành nghề, dụng cụ hiện đại, đến tận nơi chỉ trong 30
+              phút
+            </p>
+            <a href="booking.html" class="btn btn-primary">Đặt lịch ngay</a>
+          </div>
+        </div>
+        <!-- Slide 2 -->
+        <div
+          class="hero-slide"
+          style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80')"
+        >
+          <div class="hero-content">
+            <h2>Sửa chữa xe lưu động 24/7</h2>
+            <p>
+              Khắc phục sự cố nhanh chóng: thay lốp, nổ máy, kiểm tra điện...
+            </p>
+            <a href="booking.html" class="btn btn-primary">Gọi cứu hộ</a>
+          </div>
+        </div>
+        <!-- Slide 3 -->
+        <div
+          class="hero-slide"
+          style="background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=1920&q=80')"
+        >
+          <div class="hero-content">
+            <h2>Bảo dưỡng định kỳ - Giá tốt</h2>
+            <p>Thay dầu, lọc gió, kiểm tra phanh – Tiết kiệm đến 30%</p>
+            <a href="services.html" class="btn btn-primary"
+              >Xem gói bảo dưỡng</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <button class="slider-arrow prev" id="prevBtn"><</button>
+      <button class="slider-arrow next" id="nextBtn">></button>
+      <div class="slider-controls" id="sliderDots"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+      <div class="container">
+        <h2 class="section-title">Tại sao chọn chúng tôi?</h2>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">House</div>
+            <h3>Phục vụ tại nhà</h3>
+            <p>Không cần đưa xe đến garage, chúng tôi đến tận nơi</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">Lightning</div>
+            <h3>Nhanh chóng</h3>
+            <p>Thời gian phục vụ nhanh, tiết kiệm thời gian của bạn</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">Money</div>
+            <h3>Giá cả hợp lý</h3>
+            <p>Giá cả minh bạch, không phát sinh chi phí</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">Tools</div>
+            <h3>Chuyên nghiệp</h3>
+            <p>Đội ngũ kỹ thuật viên có kinh nghiệm, tận tâm</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Preview -->
+    <section class="services-preview">
+      <div class="container">
+        <h2 class="section-title">Dịch vụ của chúng tôi</h2>
+        <div class="services-grid">
+          <div class="service-card">
+            <h3>Rửa xe</h3>
+            <p>Rửa xe ngoài và trong, làm sạch kỹ lưỡng</p>
+            <span class="price">Từ 100.000đ</span>
+          </div>
+          <div class="service-card">
+            <h3>Sửa chữa cơ bản</h3>
+            <p>Thay dầu, lọc gió, kiểm tra hệ thống</p>
+            <span class="price">Từ 200.000đ</span>
+          </div>
+          <div class="service-card">
+            <h3>Bảo dưỡng định kỳ</h3>
+            <p>Bảo dưỡng toàn diện theo khuyến nghị</p>
+            <span class="price">Từ 500.000đ</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <a href="services.html" class="btn btn-secondary"
+            >Xem tất cả dịch vụ</a
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2024 AutoCare. Tất cả quyền được bảo lưu.</p>
+        <p>Hotline: 1900-xxxx | Email: support@autocare.vn</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script src="../js/index.js"></script>
+  </body>
+</html>

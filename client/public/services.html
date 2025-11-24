@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dịch vụ - AutoCare</title>
+    <link rel="stylesheet" href="../css/services.css" />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container">
+          <div class="nav-brand">
+            <h1>AutoCare</h1>
+          </div>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html" class="active">Dịch vụ</a></li>
+            <li><a href="products.html">Sản phẩm</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="login.html" id="loginLink">Đăng nhập</a></li>
+            <li>
+              <a href="profile.html" id="profileLink" style="display: none"
+                >Hồ sơ</a
+              >
+            </li>
+          </ul>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Hero Section với hình ảnh -->
+    <section class="services-hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-content">
+        <h1>Dịch vụ chuyên nghiệp</h1>
+        <p>Chăm sóc xe của bạn với đội ngũ kỹ thuật viên giàu kinh nghiệm</p>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- RỬA XE -->
+        <section class="service-category">
+          <h2 class="category-title">Dịch vụ Rửa xe</h2>
+          <div class="services-grid">
+            <!-- Rửa xe ngoài cơ bản -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(0, 102, 204, 0.8),
+                        rgba(0, 82, 163, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">🚗</div>
+                  <h3>Rửa xe ngoài cơ bản</h3>
+                  <p>Rửa sạch bên ngoài xe, lau khô, làm sạch kính</p>
+                  <span class="price">100.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Rửa xe ngoài cơ bản</h3>
+                  <ul>
+                    <li>Rửa áp lực cao toàn bộ thân xe</li>
+                    <li>Lau khô bằng khăn microfiber</li>
+                    <li>Làm sạch kính trong & ngoài</li>
+                    <li>Vệ sinh lazang & lốp</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 30 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rửa xe ngoài + trong -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(0, 102, 204, 0.8),
+                        rgba(0, 82, 163, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">✨</div>
+                  <h3>Rửa xe ngoài + trong</h3>
+                  <p>Rửa ngoài + hút bụi trong xe, lau dọn nội thất</p>
+                  <span class="price">150.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Rửa xe ngoài + trong</h3>
+                  <ul>
+                    <li>Rửa ngoài như gói cơ bản</li>
+                    <li>Hút bụi sàn, ghế, trần xe</li>
+                    <li>Lau bảng điều khiển & cửa</li>
+                    <li>Khử mùi nội thất</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 60 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Rửa xe cao cấp -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(0, 102, 204, 0.8),
+                        rgba(0, 82, 163, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">💎</div>
+                  <h3>Rửa xe cao cấp</h3>
+                  <p>Rửa ngoài + trong + đánh bóng + bảo vệ lớp sơn</p>
+                  <span class="price">300.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Rửa xe cao cấp</h3>
+                  <ul>
+                    <li>Rửa + hút bụi toàn diện</li>
+                    <li>Đánh bóng sơn xe bằng máy</li>
+                    <li>Phủ nano bảo vệ 3 tháng</li>
+                    <li>Làm sạch chi tiết (khe cửa, logo)</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 90 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SỬA CHỮA -->
+        <section class="service-category">
+          <h2 class="category-title">Dịch vụ Sửa chữa</h2>
+          <div class="services-grid">
+            <!-- Thay dầu động cơ -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(255, 152, 0, 0.8),
+                        rgba(255, 111, 0, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">🔧</div>
+                  <h3>Thay dầu động cơ</h3>
+                  <p>Thay dầu nhớt và lọc dầu theo tiêu chuẩn</p>
+                  <span class="price">200.000đ - 500.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Thay dầu động cơ</h3>
+                  <ul>
+                    <li>Thay dầu nhớt chính hãng</li>
+                    <li>Thay lọc dầu (nếu cần)</li>
+                    <li>Kiểm tra mức dầu sau thay</li>
+                    <li>Báo cáo tình trạng dầu cũ</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 30-45 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Thay lọc gió -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(76, 175, 80, 0.8),
+                        rgba(56, 142, 60, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">🌬️</div>
+                  <h3>Thay lọc gió</h3>
+                  <p>Thay lọc gió động cơ và lọc gió điều hòa</p>
+                  <span class="price">150.000đ - 300.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Thay lọc gió</h3>
+                  <ul>
+                    <li>Thay lọc gió động cơ</li>
+                    <li>Thay lọc gió điều hòa</li>
+                    <li>Kiểm tra hệ thống thông gió</li>
+                    <li>Khử mùi lọc điều hòa</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 45 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kiểm tra hệ thống -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(156, 39, 176, 0.8),
+                        rgba(123, 31, 162, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">⚙️</div>
+                  <h3>Kiểm tra hệ thống</h3>
+                  <p>Kiểm tra phanh, lốp, ắc quy, đèn, hệ thống điện</p>
+                  <span class="price">100.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Kiểm tra hệ thống</h3>
+                  <ul>
+                    <li>Kiểm tra phanh (má phanh, đĩa)</li>
+                    <li>Đo áp suất lốp & độ mòn</li>
+                    <li>Kiểm tra ắc quy & hệ thống điện</li>
+                    <li>Đèn pha, xi-nhan, phanh</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 45 phút</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- BẢO DƯỠNG -->
+        <section class="service-category">
+          <h2 class="category-title">Dịch vụ Bảo dưỡng</h2>
+          <div class="services-grid">
+            <!-- 5.000km -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(233, 30, 99, 0.8),
+                        rgba(194, 24, 91, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">🛠️</div>
+                  <h3>Bảo dưỡng 5.000km</h3>
+                  <p>Thay dầu, lọc dầu, kiểm tra tổng thể</p>
+                  <span class="price">500.000đ - 800.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Bảo dưỡng 5.000km</h3>
+                  <ul>
+                    <li>Thay dầu + lọc dầu</li>
+                    <li>Kiểm tra phanh, lốp, ắc quy</li>
+                    <li>Siết lại bulong, đai ốc</li>
+                    <li>Báo cáo tình trạng xe</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 2-3 giờ</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 10.000km -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(0, 188, 212, 0.8),
+                        rgba(0, 151, 167, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1486754735734-325b5831c3ad?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">🔩</div>
+                  <h3>Bảo dưỡng 10.000km</h3>
+                  <p>Bảo dưỡng 5.000km + thay lọc gió, kiểm tra phanh</p>
+                  <span class="price">800.000đ - 1.200.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Bảo dưỡng 10.000km</h3>
+                  <ul>
+                    <li>Gói 5.000km + lọc gió</li>
+                    <li>Thay lọc gió điều hòa</li>
+                    <li>Kiểm tra hệ thống phanh chi tiết</li>
+                    <li>Cân bằng lốp</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 3-4 giờ</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 20.000km -->
+            <div class="service-card">
+              <div class="card-inner">
+                <div
+                  class="card-front"
+                  style="
+                    background-image: linear-gradient(
+                        rgba(255, 87, 34, 0.8),
+                        rgba(230, 74, 25, 0.8)
+                      ),
+                      url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=800&q=80');
+                    background-size: cover;
+                    background-position: center;
+                  "
+                >
+                  <div class="card-icon">⚡</div>
+                  <h3>Bảo dưỡng 20.000km</h3>
+                  <p>Bảo dưỡng toàn diện, thay nhiều phụ tùng</p>
+                  <span class="price">1.500.000đ - 2.500.000đ</span>
+                  <a href="booking.html" class="btn-card">Đặt ngay</a>
+                </div>
+                <div class="card-back">
+                  <h3>Bảo dưỡng 20.000km</h3>
+                  <ul>
+                    <li>Gói 10.000km + bugi, dây cao áp</li>
+                    <li>Thay dầu hộp số (nếu cần)</li>
+                    <li>Kiểm tra hệ thống treo</li>
+                    <li>Cập nhật phần mềm ECU</li>
+                  </ul>
+                  <p><strong>Thời gian:</strong> 5-7 giờ</p>
+                  <a href="booking.html" class="btn-card">Đặt lịch</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CTA -->
+        <div class="cta-section">
+          <h2>Sẵn sàng đặt lịch?</h2>
+          <p>Chọn dịch vụ phù hợp và đặt lịch ngay hôm nay</p>
+          <a href="booking.html" class="btn btn-primary">Đặt lịch ngay</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2024 AutoCare. Tất cả quyền được bảo lưu.</p>
+        <p>Hotline: 1900-xxxx | Email: support@autocare.vn</p>
+      </div>
+    </footer>
+
+    <!-- JS chung -->
+    <script src="../js/script.js"></script>
+  </body>
+</html>

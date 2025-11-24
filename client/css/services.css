@@ -1,0 +1,573 @@
+/* ============================================
+   SERVICES.CSS - HOÀN CHỈNH, HIỆU ỨNG LẬT 3D
+   ============================================ */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary: #0066cc;
+  --primary-dark: #0052a3;
+  --secondary: #ffffff;
+  --text: #333333;
+  --text-light: #666666;
+  --border: #e0e0e0;
+  --bg-light: #f8f9fa;
+  --radius: 16px;
+  --shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --gap: 1.5rem;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--text);
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+/* Hero Section */
+.services-hero {
+  position: relative;
+  height: 400px;
+  background-image: linear-gradient(rgba(0, 102, 204, 0.6), rgba(0, 82, 163, 0.6)), url('https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=1920&q=80');
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  margin-bottom: 3rem;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(0, 102, 204, 0.7), rgba(0, 82, 163, 0.7));
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  animation: fadeInUp 1s ease-out;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-content p {
+  font-size: 1.3rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Header */
+.header {
+  background: var(--secondary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  padding: 1rem 0;
+}
+
+.navbar .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-brand h1 {
+  font-size: 1.6rem;
+  color: var(--primary);
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: var(--transition);
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  color: var(--primary);
+  background: #e3f2fd;
+}
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  width: 25px;
+  height: 3px;
+  background: var(--text);
+  border-radius: 2px;
+  transition: var(--transition);
+}
+
+/* Main Content */
+.main-content {
+  padding: 2.5rem 0;
+  min-height: calc(100vh - 180px);
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.3rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 2.5rem;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Service Category */
+.service-category {
+  margin-bottom: 3.5rem;
+}
+
+.category-title {
+  font-size: 1.7rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 700;
+  padding: 1rem;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: var(--gap);
+}
+
+/* Card Flip Effect */
+.service-card {
+  perspective: 1000px;
+  height: 360px;
+}
+
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s var(--transition);
+  transform-style: preserve-3d;
+}
+
+.service-card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.card-front {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  color: white;
+}
+
+.card-front h3,
+.card-front p,
+.card-front .price {
+  color: white;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+}
+
+.card-front .card-icon {
+  font-size: 3.5rem;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.card-back {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  transform: rotateY(180deg);
+  border: 1px solid var(--primary);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Card Front */
+.card-icon {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.card-front h3 {
+  color: var(--text);
+  margin-bottom: 0.6rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.card-front p {
+  color: var(--text-light);
+  font-size: 0.95rem;
+  margin-bottom: 1.2rem;
+  flex-grow: 1;
+}
+
+.price {
+  display: block;
+  font-weight: bold;
+  color: var(--primary-dark);
+  font-size: 1.15rem;
+  margin-bottom: 1.2rem;
+}
+
+/* Card Back */
+.card-back h3 {
+  color: white;
+  margin-bottom: 1.2rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.card-back ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.2rem 0;
+  width: 100%;
+  text-align: left;
+}
+
+.card-back ul li {
+  position: relative;
+  padding-left: 1.8rem;
+  margin-bottom: 0.7rem;
+  font-size: 0.94rem;
+  line-height: 1.5;
+  color: #e3f2fd;
+}
+
+.card-back ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #a5d8ff;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.card-back p {
+  font-size: 0.94rem;
+  margin: 1rem 0 1.5rem;
+  color: #bbdefb;
+  font-weight: 500;
+}
+
+/* Buttons */
+.btn-card {
+  display: inline-block;
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  text-decoration: none;
+  font-weight: 600;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.card-front .btn-card {
+  background: var(--primary);
+  color: white;
+}
+
+.card-front .btn-card:hover {
+  background: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.card-back .btn-card {
+  background: white;
+  color: var(--primary);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-back .btn-card:hover {
+  background: #f0f8ff;
+  transform: translateY(-2px);
+}
+
+/* CTA Section */
+.cta-section {
+  text-align: center;
+  padding: 3.5rem 2rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: var(--radius);
+  margin: 3.5rem 0;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.cta-section::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cta-section h2,
+.cta-section p {
+  position: relative;
+  z-index: 1;
+  color: white;
+}
+
+.cta-section h2 {
+  color: var(--primary);
+  margin-bottom: 0.8rem;
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.cta-section p {
+  color: var(--text-light);
+  margin-bottom: 1.5rem;
+  font-size: 1.05rem;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.9rem 2.2rem;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 1.05rem;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(0, 102, 204, 0.3);
+}
+
+.btn:hover {
+  background: var(--primary-dark);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0, 102, 204, 0.4);
+}
+
+/* Footer */
+.footer {
+  background: var(--text);
+  color: white;
+  text-align: center;
+  padding: 2.5rem 0;
+  margin-top: 4rem;
+  font-size: 0.95rem;
+}
+
+.footer p {
+  margin-bottom: 0.6rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-toggle {
+    display: flex;
+  }
+  .nav-menu {
+    position: fixed;
+    left: -100%;
+    top: 70px;
+    flex-direction: column;
+    background: white;
+    width: 100%;
+    text-align: center;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem 0;
+  }
+  .nav-menu.active {
+    left: 0;
+  }
+  .nav-menu a {
+    display: block;
+    padding: 0.8rem;
+  }
+
+  .page-title {
+    font-size: 1.9rem;
+  }
+  .category-title {
+    font-size: 1.5rem;
+  }
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  .service-card {
+    height: 380px;
+  }
+  .cta-section {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.7rem;
+  }
+  .category-title {
+    font-size: 1.4rem;
+  }
+  .service-card {
+    padding: 1.5rem;
+    height: 400px;
+  }
+  .card-icon {
+    font-size: 2.4rem;
+  }
+  .card-front h3,
+  .card-back h3 {
+    font-size: 1.15rem;
+  }
+  .btn-card {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+/* ============================================
+   CARD FLIP 180° - HOÀN CHỈNH, MƯỢT MÀ
+   ============================================ */
+
+/* BẮT BUỘC: perspective cho card */
+.service-card {
+  perspective: 1200px; /* Tăng độ sâu 3D */
+  height: 360px;
+}
+
+/* Card lật */
+.card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d; /* BẮT BUỘC */
+  cursor: pointer;
+}
+
+/* Hover → lật 180° */
+.service-card:hover .card-inner {
+  transform: rotateY(180deg);
+}
+
+/* Mặt trước & mặt sau */
+.card-front,
+.card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden; /* Ẩn mặt sau khi lật */
+  border-radius: var(--radius);
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  box-shadow: var(--shadow);
+  top: 0;
+  left: 0;
+}
+
+/* Mặt trước */
+.card-front {
+  background: var(--secondary);
+  border: 1px solid var(--border);
+  z-index: 2;
+}
+
+/* Mặt sau - lật 180° */
+.card-back {
+  background: linear-gradient(135deg, #0066cc, #3385d6);
+  color: white;
+  transform: rotateY(180deg); /* Quay sẵn 180° */
+  z-index: 1;
+}

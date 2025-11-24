@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chi tiết sản phẩm - AutoCare</title>
+    <link rel="stylesheet" href="../css/product-detail.css" />
+  </head>
+  <body>
+    <!-- Header Navigation -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="container">
+          <div class="nav-brand">
+            <h1>AutoCare</h1>
+          </div>
+          <ul class="nav-menu" id="navMenu">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="services.html">Dịch vụ</a></li>
+            <li><a href="booking.html">Đặt lịch</a></li>
+            <li><a href="products.html" class="active">Sản phẩm</a></li>
+            <li><a href="login.html" id="loginLink">Đăng nhập</a></li>
+            <li>
+              <a href="profile.html" id="profileLink" style="display: none"
+                >Hồ sơ</a
+              >
+            </li>
+          </ul>
+          <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="container">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb">
+          <a href="index.html">Trang chủ</a>
+          <span>/</span>
+          <a href="products.html">Sản phẩm</a>
+          <span>/</span>
+          <span id="productBreadcrumb">Chi tiết</span>
+        </nav>
+
+        <!-- Loading -->
+        <div id="loading" class="loading">
+          <div class="spinner"></div>
+          <p>Đang tải thông tin sản phẩm...</p>
+        </div>
+
+        <!-- Product Detail -->
+        <div id="productDetail" class="product-detail" style="display: none;">
+          <div class="product-detail-grid">
+            <!-- Product Image -->
+            <div class="product-image-section">
+              <div class="product-main-image">
+                <img id="productMainImage" src="" alt="Product Image" />
+                <div class="image-overlay">
+                  <button class="zoom-btn" id="zoomBtn">🔍 Phóng to</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Product Info -->
+            <div class="product-info-section">
+              <h1 id="productName" class="product-name"></h1>
+              <div class="product-price-section">
+                <span id="productPrice" class="product-price"></span>
+                <span id="productStock" class="product-stock"></span>
+              </div>
+              
+              <div class="product-description-section">
+                <h3>Mô tả sản phẩm</h3>
+                <p id="productDescription" class="product-description"></p>
+              </div>
+
+              <!-- Order Section -->
+              <div class="order-section" id="orderSection">
+                <div class="quantity-selector">
+                  <label for="quantity">Số lượng:</label>
+                  <div class="quantity-controls">
+                    <button class="btn-quantity" id="decreaseBtn">−</button>
+                    <input type="number" id="quantity" min="1" value="1" max="1" />
+                    <button class="btn-quantity" id="increaseBtn">+</button>
+                  </div>
+                </div>
+                <div class="product-actions">
+                  <button class="btn btn-primary btn-large" id="orderBtn">
+                    🛒 Đặt hàng ngay
+                  </button>
+                  <button class="btn btn-secondary btn-large" onclick="window.location.href='products.html'">
+                    ← Quay lại danh sách
+                  </button>
+                </div>
+              </div>
+
+              <!-- Product Details -->
+              <div class="product-details">
+                <h3>Thông tin chi tiết</h3>
+                <table class="details-table">
+                  <tr>
+                    <td><strong>Mã sản phẩm:</strong></td>
+                    <td id="productId">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Tình trạng:</strong></td>
+                    <td id="productStatus">—</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Ngày thêm:</strong></td>
+                    <td id="productDate">—</td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Error Message -->
+        <div id="errorMessage" class="error-message" style="display: none;">
+          <h2>Không tìm thấy sản phẩm</h2>
+          <p>Sản phẩm bạn đang tìm kiếm không tồn tại hoặc đã bị xóa.</p>
+          <a href="products.html" class="btn btn-primary">Quay lại danh sách sản phẩm</a>
+        </div>
+      </div>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="image-modal" style="display: none;">
+      <div class="modal-content">
+        <span class="close-modal">&times;</span>
+        <img id="modalImage" src="" alt="Product Image" />
+      </div>
+    </div>
+
+    <!-- Order Modal -->
+    <div id="orderModal" class="order-modal" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>Đặt hàng</h2>
+          <span class="close-modal" id="closeOrderModal">&times;</span>
+        </div>
+        <form id="orderForm">
+          <div class="form-group">
+            <label for="shippingAddress">Địa chỉ giao hàng <span class="required">*</span></label>
+            <textarea id="shippingAddress" rows="3" required placeholder="Nhập địa chỉ giao hàng"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="phone">Số điện thoại <span class="required">*</span></label>
+            <input type="tel" id="phone" required placeholder="Nhập số điện thoại" />
+          </div>
+          <div class="form-group">
+            <label for="notes">Ghi chú</label>
+            <textarea id="notes" rows="2" placeholder="Ghi chú thêm (tùy chọn)"></textarea>
+          </div>
+          <div class="order-summary">
+            <h3>Thông tin đơn hàng</h3>
+            <div class="summary-item">
+              <span>Sản phẩm:</span>
+              <span id="summaryProductName"></span>
+            </div>
+            <div class="summary-item">
+              <span>Số lượng:</span>
+              <span id="summaryQuantity"></span>
+            </div>
+            <div class="summary-item">
+              <span>Đơn giá:</span>
+              <span id="summaryPrice"></span>
+            </div>
+            <div class="summary-item total">
+              <span>Tổng tiền:</span>
+              <span id="summaryTotal"></span>
+            </div>
+          </div>
+          <div class="modal-actions">
+            <button type="button" class="btn btn-secondary" id="cancelOrderBtn">Hủy</button>
+            <button type="submit" class="btn btn-primary">Xác nhận đặt hàng</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p>© 2024 AutoCare. Tất cả quyền được bảo lưu.</p>
+        <p>Hotline: 1900-xxxx | Email: support@autocare.vn</p>
+      </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="../js/script.js"></script>
+    <script src="../js/product-detail.js"></script>
+  </body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AutoCare - Đăng nhập & Đăng ký</title>
+    <link rel="stylesheet" href="../css/auth.css" />
+  </head>
+  <body>
+    <!-- ==================== HEADER + NAV ==================== -->
+    <header class="header">
+      <nav class="navbar">
+        <div class="nav-brand">
+          <h1>AutoCare</h1>
+        </div>
+
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html">Trang chủ</a></li>
+          <li><a href="services.html">Dịch vụ</a></li>
+          <li><a href="products.html">Sản Phẩm</a></li>
+          <li><a href="booking.html">Đặt lịch</a></li>
+          <li><a href="login.html" class="active">Đăng nhập</a></li>
+          <li>
+            <a href="profile.html" id="profileLink" style="display: none"
+              >Hồ sơ</a
+            >
+          </li>
+        </ul>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ==================== MAIN CONTENT ==================== -->
+    <main class="main-content">
+      <div class="auth-container">
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button class="tab-btn active" data-tab="login">Đăng nhập</button>
+          <button class="tab-btn" data-tab="register">Đăng ký</button>
+        </div>
+
+        <!-- ==================== ĐĂNG NHẬP ==================== -->
+        <div id="loginTab" class="auth-tab-content active">
+          <h2>Chào mừng trở lại!</h2>
+          <form id="loginForm" class="auth-form" novalidate>
+            <div class="form-group">
+              <label>Email <span class="required">*</span></label>
+              <input
+                type="email"
+                id="loginEmail"
+                name="email"
+                placeholder="email@example.com"
+                required
+              />
+              <div id="loginEmailError" class="error-message"></div>
+            </div>
+            <div class="form-group">
+              <label>Mật khẩu <span class="required">*</span></label>
+              <input
+                type="password"
+                id="loginPassword"
+                name="password"
+                placeholder="ít nhất 6 ký tự"
+                required
+              />
+              <div id="loginPasswordError" class="error-message"></div>
+
+              <!-- Quên mật khẩu -->
+              <div class="forgot-password">
+                <a href="forgot-password.html">Quên mật khẩu?</a>
+              </div>
+
+              <!-- Checkbox hiển thị mật khẩu -->
+              <div class="show-password">
+                <input type="checkbox" id="showLoginPassword" />
+                <label for="showLoginPassword" style="margin: 0"
+                  >Hiển thị mật khẩu</label
+                >
+              </div>
+            </div>
+
+            <div
+              id="loginError"
+              class="error-message"
+              style="text-align: center; margin: 1rem 0; display: none"
+            ></div>
+            <button type="submit" class="btn btn-primary">Đăng nhập</button>
+          </form>
+        </div>
+
+        <!-- ==================== ĐĂNG KÝ ==================== -->
+        <div id="registerTab" class="auth-tab-content">
+          <h2>Tạo tài khoản mới</h2>
+          <form
+            id="registerForm"
+            class="auth-form register-form-horizontal"
+            novalidate
+          >
+            <!-- Dòng 1: Họ và tên -->
+            <div class="form-row">
+              <div class="form-group full-width">
+                <label for="registerName"
+                  >Họ và tên <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  id="registerName"
+                  name="name"
+                  placeholder="Nguyễn Văn A"
+                  required
+                />
+                <div id="registerNameError" class="error-message"></div>
+              </div>
+            </div>
+
+            <!-- Dòng 2: Email + Gửi OTP -->
+            <div class="form-row email-otp-row">
+              <div class="form-group email-otp full-width">
+                <input
+                  type="email"
+                  id="registerEmail"
+                  name="email"
+                  placeholder="email@example.com"
+                  required
+                />
+                <button type="button" id="sendOtpBtn">Gửi OTP</button>
+              </div>
+              <div class="form-group full-width">
+                <div id="registerEmailError" class="error-message"></div>
+                <div id="otpStatus" class="success-message"></div>
+              </div>
+            </div>
+
+            <!-- Dòng 3: OTP + Số điện thoại -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="registerOtp"
+                  >OTP <span class="required">*</span></label
+                >
+                <input
+                  type="text"
+                  id="registerOtp"
+                  name="otp"
+                  placeholder="Nhập mã OTP"
+                  required
+                />
+                <div id="registerOtpError" class="error-message"></div>
+              </div>
+              <div class="form-group">
+                <label for="registerPhone"
+                  >Số điện thoại <span class="required">*</span></label
+                >
+                <input
+                  type="tel"
+                  id="registerPhone"
+                  name="phone"
+                  placeholder="0912345678"
+                  required
+                />
+                <div id="registerPhoneError" class="error-message"></div>
+              </div>
+            </div>
+
+            <!-- Dòng 4: Mật khẩu + Nhắc lại mật khẩu -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="registerPassword"
+                  >Mật khẩu <span class="required">*</span></label
+                >
+                <input
+                  type="password"
+                  id="registerPassword"
+                  name="password"
+                  placeholder="ít nhất 6 ký tự"
+                  required
+                />
+                <div id="registerPasswordError" class="error-message"></div>
+              </div>
+              <div class="form-group">
+                <label for="registerPasswordConfirm"
+                  >Nhập lại mật khẩu <span class="required">*</span></label
+                >
+                <input
+                  type="password"
+                  id="registerPasswordConfirm"
+                  name="confirmPassword"
+                  required
+                />
+                <div
+                  id="registerPasswordConfirmError"
+                  class="error-message"
+                ></div>
+              </div>
+            </div>
+
+            <!-- Dòng 5: Hiển thị mật khẩu -->
+            <div class="form-row">
+              <div class="show-password full-width">
+                <input type="checkbox" id="showRegisterPassword" />
+                <label for="showRegisterPassword">Hiển thị mật khẩu</label>
+              </div>
+            </div>
+
+            <!-- Dòng 6: Nút đăng ký -->
+            <div class="form-row">
+              <button type="submit" class="btn btn-primary full-width">
+                Đăng ký
+              </button>
+            </div>
+
+            <!-- Thông báo đăng ký thành công -->
+            <div
+              id="registerSuccess"
+              class="success-message"
+              style="display: none; margin-top: 1rem"
+            >
+              Đăng ký thành công! Đang chuyển sang đăng nhập...
+            </div>
+          </form>
+        </div>
+      </div>
+    </main>
+
+    <!-- ==================== JS ==================== -->
+    <script src="../js/auth.js"></script>
+  </body>
+</html>

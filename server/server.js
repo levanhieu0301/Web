@@ -17,10 +17,10 @@ app.use("/api/products/images", express.static(path.join(__dirname, "HinhAnhSanP
 
 db.sequelize.sync({ alter: true })
   .then(() => {
-    console.log("✅ Đã kết nối và đồng bộ hóa CSDL thành công.");
+    console.log("Đã kết nối và đồng bộ hóa CSDL thành công.");
   })
   .catch((err) => {
-    console.error("❌ Lỗi kết nối CSDL:", err.message);
+    console.error("Lỗi kết nối CSDL:", err.message);
   });
 
 app.use("/", clientRoutes);

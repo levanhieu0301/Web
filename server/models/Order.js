@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/connect_db");
-const User = require("./User");
 
 const Order = sequelize.define(
   "Order",
@@ -13,7 +12,6 @@ const Order = sequelize.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: User, key: "id" },
     },
     total_amount: {
       type: DataTypes.DECIMAL(10, 2),
@@ -55,13 +53,5 @@ const Order = sequelize.define(
   }
 );
 
-// Quan hệ
-Order.belongsTo(User, { foreignKey: "user_id", as: "user" });
-
-// Thiết lập quan hệ với OrderItem sau khi OrderItem được định nghĩa
-const OrderItem = require("./OrderItem");
-Order.hasMany(OrderItem, { foreignKey: "order_id", as: "items" });
-OrderItem.belongsTo(Order, { foreignKey: "order_id", as: "order" });
 
 module.exports = Order;
-

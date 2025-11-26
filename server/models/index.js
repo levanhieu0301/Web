@@ -40,13 +40,17 @@ db.Invoice.belongsTo(db.User, { foreignKey: "user_id", as: "user" });
 db.Coupon.hasMany(db.Invoice, { foreignKey: "coupon_id", as: "invoices" });
 db.Invoice.belongsTo(db.Coupon, { foreignKey: "coupon_id", as: "coupon" });
 
-// db.User.hasMany(db.Order, { foreignKey: "user_id", as: "orders" });
-// db.Order.belongsTo(db.User, { foreignKey: "user_id", as: "user" });
+db.User.hasMany(db.Order, { foreignKey: "user_id", as: "orders" });
+db.Order.belongsTo(db.User, { foreignKey: "user_id", as: "user" });
 
-// db.Order.hasMany(db.OrderItem, { foreignKey: "order_id", as: "items" });
-// db.OrderItem.belongsTo(db.Order, { foreignKey: "order_id", as: "order" });
+db.Order.hasMany(db.OrderItem, {
+  foreignKey: "order_id",
+  as: "items",
+  onDelete: "CASCADE"
+});
+db.OrderItem.belongsTo(db.Order, { foreignKey: "order_id", as: "order" });
 
-// db.Product.hasMany(db.OrderItem, { foreignKey: "product_id", as: "ordered_items" });
-// db.OrderItem.belongsTo(db.Product, { foreignKey: "product_id", as: "product" });
+db.Product.hasMany(db.OrderItem, { foreignKey: "product_id", as: "ordered_items" });
+db.OrderItem.belongsTo(db.Product, { foreignKey: "product_id", as: "product" });
 
 module.exports = db;

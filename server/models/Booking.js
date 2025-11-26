@@ -1,7 +1,5 @@
-// server/models/Booking.js
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/connect_db");
-const User = require("./User");
 
 const Booking = sequelize.define(
   "Booking",
@@ -14,12 +12,10 @@ const Booking = sequelize.define(
     user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: User, key: "id" },
     },
     staff_id: {
       type: DataTypes.INTEGER,
       allowNull: true,
-      references: { model: User, key: "id" },
     },
     service: { type: DataTypes.STRING, allowNull: true },
     car_brand: { type: DataTypes.STRING, allowNull: true },
@@ -48,9 +44,5 @@ const Booking = sequelize.define(
     underscored: true,
   }
 );
-
-// Quan hệ
-Booking.belongsTo(User, { foreignKey: "user_id", as: "user" });
-Booking.belongsTo(User, { foreignKey: "staff_id", as: "staff" }); // Quan hệ staff
 
 module.exports = Booking;

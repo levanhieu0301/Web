@@ -1,4 +1,5 @@
 const API_URL = "http://localhost:5000/api/staff";
+const API_BASE = "http://localhost:5000/api";
 
 document.addEventListener("DOMContentLoaded", async () => {
   const staff = JSON.parse(localStorage.getItem("currentUser"));
@@ -16,6 +17,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const bookingList = document.getElementById("bookingList");
   const noBooking = document.getElementById("noBooking");
+  const ordersList = document.getElementById("ordersList");
+  const noOrder = document.getElementById("noOrder");
 
   // Load danh sách booking của nhân viên
   async function loadBookings() {
@@ -112,6 +115,104 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   await loadBookings();
 
+  // Load danh sách đơn hàng sản phẩm
+  async function loadOrders() {
+    if (!ordersList || !noOrder) return;
+
+    try {
+      const res = await fetch(`${API_BASE}/orders`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (!res.ok) throw new Error("Lỗi tải đơn hàng");
+
+      const resData = await res.json();
+      const orders = resData.data || [];
+
+      ordersList.innerHTML = "";
+
+      if (!orders.length) {
+        noOrder.style.display = "block";
+        return;
+      } else {
+        noOrder.style.display = "none";
+      }
+
+      const statusClassMap = {
+        pending: "status-pending",
+        confirmed: "status-confirmed",
+        processing: "status-confirmed",
+        shipped: "status-confirmed",
+        delivered: "status-completed",
+        cancelled: "status-cancelled",
+      };
+
+      const statusTextMap = {
+        pending: "Chờ duyệt",
+        confirmed: "Đã xác nhận",
+        processing: "Đang xử lý",
+        shipped: "Đang giao",
+        delivered: "Đã giao",
+        cancelled: "Đã hủy",
+      };
+
+      orders.forEach((order) => {
+        const item = document.createElement("div");
+        item.className = "booking-item";
+
+        const statusClass = statusClassMap[order.status] || "status-pending";
+        const statusText = statusTextMap[order.status] || "Không rõ";
+
+        // Danh sách sản phẩm trong đơn
+        let productsHtml = "—";
+        if (order.items && order.items.length > 0) {
+          productsHtml = order.items
+            .map(
+              (it) =>
+                `${it.product?.name || "Sản phẩm #" + it.product_id} (x${it.quantity
+                })`
+            )
+            .join(", ");
+        }
+
+        item.innerHTML = `
+          <div class="booking-header">
+            <div class="booking-service">Đơn hàng #${order.id}</div>
+            <span class="booking-status ${statusClass}">${statusText}</span>
+          </div>
+          <div class="booking-details">
+            <div class="detail-row">
+              <strong>Khách hàng:</strong> ${order.user?.name || "—"} (${order.user?.email || "—"})
+            </div>
+            <div class="detail-row">
+              <strong>Sản phẩm:</strong> ${productsHtml}
+            </div>
+            <div class="detail-row">
+              <strong>Tổng tiền:</strong> ${formatPrice(order.total_amount || 0)}
+            </div>
+            <div class="detail-row">
+              <strong>Địa chỉ:</strong> ${order.shipping_address || "—"}
+            </div>
+            <div class="detail-row">
+              <strong>SĐT:</strong> ${order.phone || "—"}
+            </div>
+            <div class="detail-row">
+              <strong>Ngày đặt:</strong> ${formatDate(order.created_at)}
+            </div>
+          </div>
+        `;
+
+        ordersList.appendChild(item);
+      });
+    } catch (err) {
+      console.error(err);
+      noOrder.textContent = "Lỗi tải đơn hàng.";
+      noOrder.style.display = "block";
+    }
+  }
+
+  await loadOrders();
+
   // Xử lý click đánh dấu completed
   bookingList.addEventListener("click", async (e) => {
     if (!e.target.classList.contains("btn-complete")) return;
@@ -154,5 +255,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     } catch {
       return "Không xác định";
     }
+  }
+
+  function formatPrice(price) {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+    }).format(price || 0);
   }
 });

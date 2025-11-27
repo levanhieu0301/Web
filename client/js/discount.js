@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     return;
   }
 
-  // Load danh sách mã giảm giá
+  // Load danh sách mã giảm giá từ backend
   loadDiscounts();
 
   // Xử lý form
@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("generateBtn").addEventListener("click", generateCode);
 
   // Set min date cho date inputs
-  const today = new Date().toISOString().split('T')[0];
+  const today = new Date().toISOString().split("T")[0];
   document.getElementById("startDate").setAttribute("min", today);
   document.getElementById("endDate").setAttribute("min", today);
 
@@ -64,145 +64,194 @@ function generateCode() {
   document.getElementById("code").value = code;
 }
 
-// Xử lý submit form
+// Xử lý submit form (tạo mã mới)
 async function handleSubmit(e) {
   e.preventDefault();
 
+  const token = localStorage.getItem("token");
   const formData = new FormData(e.target);
-  const data = {
-    code: formData.get("code").toUpperCase(),
-    discountType: formData.get("discountType"),
-    discountValue: parseFloat(formData.get("discountValue")),
-    minOrder: formData.get("minOrder") ? parseFloat(formData.get("minOrder")) : 0,
-    maxDiscount: formData.get("maxDiscount") ? parseFloat(formData.get("maxDiscount")) : null,
-    startDate: formData.get("startDate"),
-    endDate: formData.get("endDate"),
-    usageLimit: formData.get("usageLimit") ? parseInt(formData.get("usageLimit")) : null,
-    description: formData.get("description") || ""
-  };
 
-  // Validate
-  if (data.startDate >= data.endDate) {
+  const startDate = formData.get("startDate");
+  const endDate = formData.get("endDate");
+
+  if (startDate >= endDate) {
     alert("Ngày kết thúc phải sau ngày bắt đầu!");
     return;
   }
 
-  // Lưu vào localStorage (mock - không có backend)
-  const discounts = JSON.parse(localStorage.getItem("discounts") || "[]");
-  const newDiscount = {
-    id: discounts.length > 0 ? Math.max(...discounts.map(d => d.id)) + 1 : 1,
-    ...data,
-    usedCount: 0,
-    createdAt: new Date().toISOString()
+  const payload = {
+    code: formData.get("code").toUpperCase(),
+    type: formData.get("discountType"),
+    value: parseFloat(formData.get("discountValue")),
+    min_order_value: formData.get("minOrder")
+      ? parseFloat(formData.get("minOrder"))
+      : 0,
+    // maxDiscount hiện chưa hỗ trợ trong model => bỏ qua
+    start_date: startDate,
+    end_date: endDate,
+    max_usage: formData.get("usageLimit")
+      ? parseInt(formData.get("usageLimit"), 10)
+      : null,
+    description: formData.get("description") || "",
   };
-  discounts.push(newDiscount);
-  localStorage.setItem("discounts", JSON.stringify(discounts));
 
-  alert("Tạo mã giảm giá thành công!");
-  e.target.reset();
-  loadDiscounts();
+  try {
+    const res = await fetch(`${API_URL}/coupons`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Tạo mã giảm giá thất bại");
+    }
+
+    alert("Tạo mã giảm giá thành công!");
+    e.target.reset();
+    loadDiscounts();
+  } catch (err) {
+    console.error("Error creating coupon:", err);
+    alert(err.message || "Lỗi tạo mã giảm giá");
+  }
 }
 
-// Load danh sách mã giảm giá
-function loadDiscounts() {
-  // Lấy từ localStorage (mock data)
-  let discounts = JSON.parse(localStorage.getItem("discounts") || "[]");
-
-  // Nếu chưa có, tạo dữ liệu mẫu
-  if (discounts.length === 0) {
-    discounts = [
-      {
-        id: 1,
-        code: "SUMMER2024",
-        discountType: "percentage",
-        discountValue: 20,
-        minOrder: 500000,
-        maxDiscount: 100000,
-        startDate: "2024-06-01",
-        endDate: "2024-08-31",
-        usageLimit: 100,
-        usedCount: 45,
-        description: "Giảm 20% cho đơn hàng từ 500k, tối đa 100k",
-        createdAt: "2024-05-25T10:00:00Z"
-      },
-      {
-        id: 2,
-        code: "NEWUSER50",
-        discountType: "fixed",
-        discountValue: 50000,
-        minOrder: 0,
-        maxDiscount: null,
-        startDate: "2024-01-01",
-        endDate: "2024-12-31",
-        usageLimit: null,
-        usedCount: 120,
-        description: "Giảm 50k cho khách hàng mới",
-        createdAt: "2024-01-01T00:00:00Z"
-      }
-    ];
-    localStorage.setItem("discounts", JSON.stringify(discounts));
-  }
-
+// Load danh sách mã giảm giá từ backend
+async function loadDiscounts() {
+  const token = localStorage.getItem("token");
   const tbody = document.getElementById("discountsTableBody");
   tbody.innerHTML = "";
 
-  discounts.forEach((discount) => {
-    const now = new Date();
-    const startDate = new Date(discount.startDate);
-    const endDate = new Date(discount.endDate);
-    
-    let status = "active";
-    let statusText = "Đang hoạt động";
-    if (now < startDate) {
-      status = "inactive";
-      statusText = "Chưa bắt đầu";
-    } else if (now > endDate) {
-      status = "expired";
-      statusText = "Hết hạn";
+  try {
+    const res = await fetch(`${API_URL}/coupons`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || "Lỗi tải danh sách mã giảm giá");
     }
 
+    const coupons = data.data || [];
+
+    if (coupons.length === 0) {
+      const row = document.createElement("tr");
+      row.innerHTML =
+        '<td colspan="8" style="text-align:center; padding: 1rem;">Chưa có mã giảm giá nào</td>';
+      tbody.appendChild(row);
+      return;
+    }
+
+    const now = new Date();
+
+    coupons.forEach((coupon) => {
+      const startDate = new Date(coupon.start_date);
+      const endDate = new Date(coupon.end_date);
+
+      let status = "active";
+      let statusText = "Đang hoạt động";
+
+      if (!coupon.is_active) {
+        status = "inactive";
+        statusText = "Đã khóa";
+      } else if (now < startDate) {
+        status = "inactive";
+        statusText = "Chưa bắt đầu";
+      } else if (now > endDate) {
+        status = "expired";
+        statusText = "Hết hạn";
+      } else if (
+        coupon.max_usage !== null &&
+        coupon.usage_count >= coupon.max_usage
+      ) {
+        status = "expired";
+        statusText = "Hết lượt dùng";
+      }
+
+      const typeText =
+        coupon.type === "percentage" ? "Phần trăm" : "Cố định";
+
+      const valueText =
+        coupon.type === "percentage"
+          ? `${parseFloat(coupon.value)}%`
+          : `${Number(coupon.value).toLocaleString("vi-VN")}đ`;
+
+      const usedText =
+        coupon.max_usage !== null
+          ? `${coupon.usage_count}/${coupon.max_usage}`
+          : `${coupon.usage_count}`;
+
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td><span class="discount-code">${coupon.code}</span></td>
+        <td>
+          <span class="discount-type ${coupon.type}">
+            ${typeText}
+          </span>
+        </td>
+        <td>
+          <span class="discount-value">${valueText}</span>
+        </td>
+        <td>${formatDate(coupon.start_date)}</td>
+        <td>${formatDate(coupon.end_date)}</td>
+        <td>${usedText}</td>
+        <td><span class="status-${status}">${statusText}</span></td>
+        <td>
+          ${status === "active"
+          ? `<button class="btn-delete" onclick="deleteDiscount(${coupon.id})">
+                  Khóa
+                </button>`
+          : "-"
+        }
+        </td>
+      `;
+      tbody.appendChild(row);
+    });
+  } catch (err) {
+    console.error("Error loading coupons:", err);
     const row = document.createElement("tr");
-    row.innerHTML = `
-      <td><span class="discount-code">${discount.code}</span></td>
-      <td>
-        <span class="discount-type ${discount.discountType}">
-          ${discount.discountType === "percentage" ? "Phần trăm" : "Cố định"}
-        </span>
-      </td>
-      <td>
-        <span class="discount-value">
-          ${discount.discountType === "percentage" 
-            ? `${discount.discountValue}%` 
-            : `${discount.discountValue.toLocaleString("vi-VN")}đ`}
-        </span>
-      </td>
-      <td>${formatDate(discount.startDate)}</td>
-      <td>${formatDate(discount.endDate)}</td>
-      <td>${discount.usedCount}${discount.usageLimit ? `/${discount.usageLimit}` : ""}</td>
-      <td><span class="status-${status}">${statusText}</span></td>
-      <td>
-        <button class="btn-delete" onclick="deleteDiscount(${discount.id})">
-          Xóa
-        </button>
-      </td>
-    `;
+    row.innerHTML =
+      '<td colspan="8" style="text-align:center; padding: 1rem; color: red;">Lỗi tải danh sách mã giảm giá</td>';
     tbody.appendChild(row);
-  });
+  }
 }
 
-// Xóa mã giảm giá
-window.deleteDiscount = function(id) {
-  if (!confirm("Bạn có chắc muốn xóa mã giảm giá này?")) return;
+// Vô hiệu hoá mã giảm giá
+window.deleteDiscount = async function (id) {
+  if (!confirm("Bạn có chắc muốn vô hiệu hoá mã giảm giá này?")) return;
 
-  const discounts = JSON.parse(localStorage.getItem("discounts") || "[]");
-  const filtered = discounts.filter(d => d.id !== id);
-  localStorage.setItem("discounts", JSON.stringify(filtered));
-  loadDiscounts();
-  alert("Đã xóa mã giảm giá!");
+  const token = localStorage.getItem("token");
+
+  try {
+    const res = await fetch(`${API_URL}/coupons/${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      throw new Error(data.error || "Vô hiệu hoá mã giảm giá thất bại");
+    }
+
+    alert("Đã vô hiệu hoá mã giảm giá!");
+    loadDiscounts();
+  } catch (err) {
+    console.error("Error deactivating coupon:", err);
+    alert(err.message || "Lỗi vô hiệu hoá mã giảm giá");
+  }
 };
 
 // Format ngày
 function formatDate(dateStr) {
+  if (!dateStr) return "—";
   return new Date(dateStr).toLocaleDateString("vi-VN");
 }
-

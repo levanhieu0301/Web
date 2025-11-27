@@ -1,10 +1,8 @@
 const Booking = require("../models/Booking");
 
-// Lấy danh sách booking cho nhân viên
 const getStaffBookings = async (req, res) => {
   try {
     const User = require("../models/User");
-    // Chỉ lấy booking assigned cho nhân viên đang đăng nhập
     const bookings = await Booking.findAll({
       where: {
         staff_id: req.user.id,
@@ -15,7 +13,6 @@ const getStaffBookings = async (req, res) => {
       order: [["appointment_date", "ASC"], ["appointment_time", "ASC"]],
     });
 
-    // Chuyển dữ liệu ra format frontend cần
     const result = bookings.map((b) => ({
       id: b.id,
       service: b.service,
@@ -76,9 +73,9 @@ const completeBooking = async (req, res) => {
       ],
     });
 
-    res.json({ 
+    res.json({
       message: "Đã đánh dấu hoàn thành dịch vụ",
-      data: booking 
+      data: booking
     });
   } catch (err) {
     console.error(err);

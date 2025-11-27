@@ -1,6 +1,5 @@
 const { DataTypes } = require("sequelize");
 const { sequelize } = require("../config/connect_db");
-const Product = require("./Product");
 
 const OrderItem = sequelize.define(
   "OrderItem",
@@ -17,7 +16,6 @@ const OrderItem = sequelize.define(
     product_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      references: { model: Product, key: "id" },
     },
     quantity: {
       type: DataTypes.INTEGER,
@@ -27,10 +25,12 @@ const OrderItem = sequelize.define(
     price: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      comment: "Giá tại thời điểm mua",
     },
     subtotal: {
       type: DataTypes.DECIMAL(10, 2),
       allowNull: false,
+      comment: "Thành tiền (price * quantity)",
     },
     created_at: {
       type: DataTypes.DATE,
@@ -45,8 +45,4 @@ const OrderItem = sequelize.define(
   }
 );
 
-// Quan hệ với Product
-OrderItem.belongsTo(Product, { foreignKey: "product_id", as: "product" });
-
 module.exports = OrderItem;
-

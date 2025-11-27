@@ -3,11 +3,13 @@ const orderService = require("../services/orderService");
 // Tạo đơn hàng mới
 const createOrder = async (req, res) => {
   try {
-    const { items, shipping_address, phone, notes } = req.body;
+    const { items, shipping_address, phone, notes, coupon_code } = req.body;
     const user_id = req.user.id;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return res.status(400).json({ error: "Vui lòng chọn ít nhất một sản phẩm" });
+      return res
+        .status(400)
+        .json({ error: "Vui lòng chọn ít nhất một sản phẩm" });
     }
 
     const orderData = {
@@ -16,6 +18,7 @@ const createOrder = async (req, res) => {
       shipping_address,
       phone,
       notes,
+      coupon_code: coupon_code || null,
     };
 
     const order = await orderService.createOrder(orderData);
@@ -25,7 +28,11 @@ const createOrder = async (req, res) => {
     });
   } catch (err) {
     console.error("Error in createOrder:", err);
-    return res.status(500).json({ error: err.message || "Lỗi tạo đơn hàng" });
+    // Các lỗi validate (sản phẩm, coupon, ...) trả về 400
+    if (err.message) {
+      return res.status(400).json({ error: err.message });
+    }
+    return res.status(500).json({ error: "Lỗi tạo đơn hàng" });
   }
 };
 
@@ -46,7 +53,7 @@ const getAllOrders = async (req, res) => {
 const getOrderById = async (req, res) => {
   try {
     const order = await orderService.getOrderById(req.params.id);
-    
+
     // Kiểm tra quyền: user chỉ xem được đơn hàng của mình
     if (req.user.role === "user" && order.user_id !== req.user.id) {
       return res.status(403).json({ error: "Không có quyền xem đơn hàng này" });
@@ -66,7 +73,7 @@ const getOrderById = async (req, res) => {
 const updateOrder = async (req, res) => {
   try {
     const order = await orderService.getOrderById(req.params.id);
-    
+
     // Kiểm tra quyền: user chỉ cập nhật được đơn hàng của mình (và chỉ khi pending)
     if (req.user.role === "user") {
       if (order.user_id !== req.user.id) {
@@ -95,7 +102,7 @@ const updateOrder = async (req, res) => {
 const deleteOrder = async (req, res) => {
   try {
     const order = await orderService.getOrderById(req.params.id);
-    
+
     // Kiểm tra quyền: user chỉ xóa được đơn hàng của mình (và chỉ khi pending)
     if (req.user.role === "user") {
       if (order.user_id !== req.user.id) {

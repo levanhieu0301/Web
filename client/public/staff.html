@@ -1,60 +1,72 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nhân viên - AutoCare</title>
-    <link rel="stylesheet" href="../css/profile.css" />
-  </head>
-  <body>
-    <!-- HEADER + NAV -->
-    <header class="header">
-      <nav class="navbar">
-        <div class="nav-brand"><h1>AutoCare</h1></div>
 
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="staff.html" class="active">Nhân viên</a></li>
-        </ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nhân viên - AutoCare</title>
+  <link rel="stylesheet" href="../css/profile.css" />
+</head>
 
-        <button class="nav-toggle" id="navToggle" aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
-    </header>
+<body>
+  <!-- HEADER + NAV -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>AutoCare</h1>
+      </div>
 
-    <main class="main-content">
-      <div class="profile-container profile-grid">
-        <!-- Header -->
-        <div class="profile-header">
-          <h2>Hồ sơ nhân viên</h2>
-          <p>Quản lý danh sách booking và trạng thái dịch vụ</p>
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="staff.html" class="active">Nhân viên</a></li>
+      </ul>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div class="profile-container profile-grid">
+      <!-- Header -->
+      <div class="profile-header">
+        <h2>Hồ sơ nhân viên</h2>
+        <p>Quản lý danh sách booking và trạng thái dịch vụ</p>
+      </div>
+
+      <!-- Thông tin nhân viên -->
+      <div class="profile-info">
+        <div class="info-item">
+          <span class="label">Họ và tên:</span>
+          <span id="staffName" class="value">Đang tải...</span>
+        </div>
+        <div class="info-item">
+          <span class="label">Email:</span>
+          <span id="staffEmail" class="value">Đang tải...</span>
         </div>
 
-        <!-- Thông tin nhân viên -->
-        <div class="profile-info">
-          <div class="info-item">
-            <span class="label">Họ và tên:</span>
-            <span id="staffName" class="value">Đang tải...</span>
-          </div>
-          <div class="info-item">
-            <span class="label">Email:</span>
-            <span id="staffEmail" class="value">Đang tải...</span>
-          </div>
-
-          <div class="profile-actions">
-            <button id="logoutBtn" class="btn btn-danger">Đăng xuất</button>
-          </div>
-        </div>
-
-        <!-- Danh sách booking -->
-        <div class="profile-history">
-          <h3>Danh sách booking cần xử lý</h3>
-          <div id="bookingList" class="booking-list"></div>
-          <p id="noBooking" class="no-data">Chưa có booking nào.</p>
+        <div class="profile-actions">
+          <button id="logoutBtn" class="btn btn-danger">Đăng xuất</button>
         </div>
       </div>
-    </main>
 
-    <script src="../js/staff.js"></script>
-  </body>
+      <!-- Danh sách booking -->
+      <div class="profile-history">
+        <h3>Danh sách booking cần xử lý</h3>
+        <div id="bookingList" class="booking-list"></div>
+        <p id="noBooking" class="no-data">Chưa có booking nào.</p>
+      </div>
+
+      <!-- Danh sách đơn hàng sản phẩm -->
+      <div class="profile-history">
+        <h3>Đơn hàng sản phẩm</h3>
+        <div id="ordersList" class="booking-list"></div>
+        <p id="noOrder" class="no-data">Chưa có đơn hàng nào.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/staff.js"></script>
+</body>
+
 </html>

@@ -2,13 +2,16 @@ const Order = require("../models/Order");
 const OrderItem = require("../models/OrderItem");
 const Product = require("../models/Product");
 const User = require("../models/User");
+const Coupon = require("../models/Coupon");
+const couponService = require("./couponService");
 
 // Tạo đơn hàng mới
 const createOrder = async (orderData) => {
-  const { user_id, items, shipping_address, phone, notes } = orderData;
+  const { user_id, items, shipping_address, phone, notes, coupon_code } =
+    orderData;
 
-  // Tính tổng tiền
-  let totalAmount = 0;
+  // Tính tổng tiền gốc
+  let originalTotal = 0;
   for (const item of items) {
     const product = await Product.findByPk(item.product_id);
     if (!product) {
@@ -17,13 +20,26 @@ const createOrder = async (orderData) => {
     if (product.stock < item.quantity) {
       throw new Error(`Sản phẩm ${product.name} không đủ số lượng trong kho`);
     }
-    totalAmount += parseFloat(product.price) * item.quantity;
+    originalTotal += parseFloat(product.price) * item.quantity;
+  }
+
+  let finalTotal = originalTotal;
+  let appliedCoupon = null;
+
+  // Nếu có mã giảm giá, validate và tính lại tổng tiền
+  if (coupon_code) {
+    const couponResult = await couponService.validateAndCalculate(
+      coupon_code,
+      originalTotal
+    );
+    finalTotal = couponResult.final_price;
+    appliedCoupon = couponResult;
   }
 
   // Tạo đơn hàng
   const order = await Order.create({
     user_id,
-    total_amount: totalAmount,
+    total_amount: finalTotal,
     shipping_address,
     phone,
     notes,
@@ -49,6 +65,14 @@ const createOrder = async (orderData) => {
       { stock: product.stock - item.quantity },
       { where: { id: item.product_id } }
     );
+  }
+
+  // Tăng usage_count cho coupon nếu có áp dụng
+  if (appliedCoupon && appliedCoupon.coupon_id) {
+    await Coupon.increment("usage_count", {
+      by: 1,
+      where: { id: appliedCoupon.coupon_id },
+    });
   }
 
   // Lấy đơn hàng với chi tiết
@@ -81,7 +105,7 @@ const getAllOrders = async (userId = null) => {
     ],
     order: [["created_at", "DESC"]],
   });
-  
+
   // Chuyển đổi sang plain object để đảm bảo dữ liệu đúng format
   return orders.map(order => order.toJSON());
 };
@@ -217,7 +241,7 @@ const updateOrderItem = async (itemId, updateData) => {
   const updatedItem = await OrderItem.findByPk(itemId, {
     include: [{ model: Product, as: "product" }],
   });
-  
+
   return updatedItem ? updatedItem.toJSON() : null;
 };
 

@@ -3,7 +3,7 @@ const API_URL = "http://localhost:5000/api";
 document.addEventListener("DOMContentLoaded", function () {
   const user = JSON.parse(localStorage.getItem("currentUser"));
   const token = localStorage.getItem("token");
-  
+
   // Store product globally for order functionality
   let currentProduct = null;
 
@@ -166,6 +166,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const shippingAddress = document.getElementById("shippingAddress").value;
     const phone = document.getElementById("phone").value;
     const notes = document.getElementById("notes").value;
+    const couponCodeInput = document.getElementById("couponCode");
+    const couponCode = couponCodeInput
+      ? couponCodeInput.value.trim().toUpperCase()
+      : "";
 
     if (!shippingAddress || !phone) {
       alert("Vui lòng điền đầy đủ thông tin!");
@@ -189,6 +193,7 @@ document.addEventListener("DOMContentLoaded", function () {
           shipping_address: shippingAddress,
           phone: phone,
           notes: notes || null,
+          coupon_code: couponCode || null,
         }),
       });
 
@@ -221,7 +226,7 @@ async function loadProduct(id) {
     errorMessage.style.display = "none";
 
     const res = await fetch(`${API_URL}/products/${id}`);
-    
+
     if (!res.ok) {
       if (res.status === 404) {
         showError();
@@ -248,7 +253,7 @@ async function loadProduct(id) {
 function displayProduct(product) {
   // Lưu product để dùng cho đặt hàng
   window.currentProduct = product;
-  
+
   // Tên sản phẩm
   document.getElementById("productName").textContent = product.name;
   document.getElementById("productBreadcrumb").textContent = product.name;
@@ -261,7 +266,7 @@ function displayProduct(product) {
   const stockElement = document.getElementById("productStock");
   const quantityInput = document.getElementById("quantity");
   const orderBtn = document.getElementById("orderBtn");
-  
+
   if (product.stock > 0) {
     stockElement.textContent = `✓ Còn ${product.stock} sản phẩm`;
     stockElement.className = "product-stock in-stock";
@@ -296,26 +301,26 @@ function displayProduct(product) {
   if (product.image) {
     imageElement.src = `http://localhost:5000/api/products/images/${product.image}`;
   } else if (product.image_url) {
-    const imageUrl = product.image_url.startsWith('http') 
-      ? product.image_url 
+    const imageUrl = product.image_url.startsWith('http')
+      ? product.image_url
       : `http://localhost:5000${product.image_url}`;
     imageElement.src = imageUrl;
   } else {
     // Ảnh mặc định
     imageElement.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500'%3E%3Crect fill='%23ddd' width='500' height='500'/%3E%3Ctext fill='%23999' font-family='sans-serif' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Image%3C/text%3E%3C/svg%3E";
   }
-  
+
   imageElement.alt = product.name;
-  imageElement.onerror = function() {
+  imageElement.onerror = function () {
     this.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='500' height='500'%3E%3Crect fill='%23ddd' width='500' height='500'/%3E%3Ctext fill='%23999' font-family='sans-serif' font-size='24' x='50%25' y='50%25' text-anchor='middle' dy='.3em'%3ENo Image%3C/text%3E%3C/svg%3E";
   };
 
   // Thông tin chi tiết
   document.getElementById("productId").textContent = `#${product.id}`;
-  
+
   const statusText = product.stock > 0 ? "Còn hàng" : "Hết hàng";
   document.getElementById("productStatus").textContent = statusText;
-  
+
   if (product.created_at) {
     const date = new Date(product.created_at);
     document.getElementById("productDate").textContent = date.toLocaleDateString("vi-VN");

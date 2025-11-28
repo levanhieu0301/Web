@@ -1,271 +1,221 @@
 <!DOCTYPE html>
 <html lang="vi">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Quản lý - AutoCare Admin</title>
-    <link rel="stylesheet" href="../css/admin.css" />
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  </head>
 
-  <body>
-    <!-- ==================== HEADER + NAV ==================== -->
-    <header class="header">
-      <nav class="navbar">
-        <div class="nav-brand">
-          <h1>
-            AutoCare <span style="font-size: 0.8rem; color: #666">(Admin)</span>
-          </h1>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quản lý - AutoCare Admin</title>
+  <link rel="stylesheet" href="../css/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <!-- ==================== HEADER + NAV ==================== -->
+  <header class="header">
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>
+          AutoCare <span style="font-size: 0.8rem; color: #666">(Admin)</span>
+        </h1>
+      </div>
+
+      <ul class="nav-menu" id="navMenu">
+        <li><a href="admin.html" class="active">Quản lý</a></li>
+        <li><a href="discount.html">Mã giảm giá</a></li>
+        <li><a href="#" id="createEmployeeLink">Tạo nhân viên</a></li>
+        <li><a href="#" id="manageProductsLink">Quản lý sản phẩm</a></li>
+        <li><a href="#" id="logoutLink">Đăng xuất</a></li>
+      </ul>
+      <button class="nav-toggle" id="navToggle" aria-label="Menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  </header>
+
+  <!-- ==================== MAIN CONTENT ==================== -->
+  <main class="main-content">
+    <div class="admin-container">
+      <!-- Tiêu đề -->
+      <div class="admin-header">
+        <h2>Dashboard Quản trị</h2>
+        <p>Quản lý người dùng và lịch đặt dịch vụ</p>
+      </div>
+
+      <!-- Thống kê nhanh -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="totalUsers">0</div>
+          <div class="stat-label">Tổng người dùng (User)</div>
         </div>
-
-        <ul class="nav-menu" id="navMenu">
-          <li><a href="admin.html" class="active">Quản lý</a></li>
-          <li><a href="discount.html">Mã giảm giá</a></li>
-          <li><a href="#" id="createEmployeeLink">Tạo nhân viên</a></li>
-          <li><a href="#" id="manageProductsLink">Quản lý sản phẩm</a></li>
-          <li><a href="#" id="logoutLink">Đăng xuất</a></li>
-        </ul>
-        <button class="nav-toggle" id="navToggle" aria-label="Menu">
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-      </nav>
-    </header>
-
-    <!-- ==================== MAIN CONTENT ==================== -->
-    <main class="main-content">
-      <div class="admin-container">
-        <!-- Tiêu đề -->
-        <div class="admin-header">
-          <h2>Dashboard Quản trị</h2>
-          <p>Quản lý người dùng và lịch đặt dịch vụ</p>
+        <div class="stat-card">
+          <div class="stat-value" id="totalBookings">0</div>
+          <div class="stat-label">Tổng đặt lịch</div>
         </div>
-
-        <!-- Thống kê nhanh -->
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-value" id="totalUsers">0</div>
-            <div class="stat-label">Tổng người dùng (User)</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="totalBookings">0</div>
-            <div class="stat-label">Tổng đặt lịch</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="pendingBookings">0</div>
-            <div class="stat-label">Chờ duyệt</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-value" id="completedBookings">0</div>
-            <div class="stat-label">Hoàn thành</div>
-          </div>
+        <div class="stat-card">
+          <div class="stat-value" id="pendingBookings">0</div>
+          <div class="stat-label">Chờ duyệt</div>
         </div>
+        <div class="stat-card">
+          <div class="stat-value" id="completedBookings">0</div>
+          <div class="stat-label">Hoàn thành</div>
+        </div>
+      </div>
 
-        <div class="admin-section">
-          <h3>Biểu đồ dịch vụ đã hoàn thành</h3>
-          <p
-            style="
+      <div class="admin-section">
+        <h3>Biểu đồ dịch vụ đã hoàn thành</h3>
+        <p style="
               color: var(--text-light);
               margin-bottom: 1rem;
               font-size: 0.9rem;
-            "
-          >Thống kê các dịch vụ đã được hoàn thành (Status: Completed)</p>
-          <div style="position: relative; height: 400px">
-            <canvas id="serviceChart"></canvas>
-          </div>
+            ">Thống kê các dịch vụ đã được hoàn thành (Status: Completed)</p>
+        <div style="position: relative; height: 400px">
+          <canvas id="serviceChart"></canvas>
         </div>
+      </div>
 
-        <!-- Bảng người dùng -->
-        <div class="admin-section">
-          <h3>Danh sách người dùng (User)</h3>
-          <p
-            style="
+      <!-- Bảng người dùng -->
+      <div class="admin-section">
+        <h3>Danh sách người dùng (User)</h3>
+        <p style="
               color: var(--text-light);
               margin-bottom: 1rem;
               font-size: 0.9rem;
-            "
-          ></p>
-          <div class="table-container">
-            <table class="admin-table" id="usersTable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Họ tên</th>
-                  <th>Email</th>
-                  <th>SĐT</th>
-                  <th>Ngày đăng ký</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- JS sẽ thêm dữ liệu -->
-              </tbody>
-            </table>
+            "></p>
+        <div class="table-container">
+          <table class="admin-table" id="usersTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Ngày đăng ký</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ thêm dữ liệu -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bảng đặt lịch -->
+      <div class="admin-section">
+        <h3>Lịch đặt dịch vụ</h3>
+        <div class="table-container">
+          <table class="admin-table" id="bookingsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Dịch vụ</th>
+                <th>Ngày giờ</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+                <th>Nhân viên</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ thêm dữ liệu -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Bảng đơn hàng -->
+      <div class="admin-section">
+        <h3>Quản lý đơn hàng</h3>
+        <div class="table-container">
+          <table class="admin-table" id="ordersTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Khách hàng</th>
+                <th>Sản phẩm</th>
+                <th>Tổng tiền</th>
+                <th>Địa chỉ</th>
+                <th>SĐT</th>
+                <th>Ngày đặt</th>
+                <th>Trạng thái</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ thêm dữ liệu -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form tạo nhân viên -->
+      <div class="admin-section" id="createEmployeeSection" style="display: none">
+        <h3>Tạo tài khoản nhân viên</h3>
+        <form id="createEmployeeForm" class="employee-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empName">Họ và tên <span class="required">*</span></label>
+              <input type="text" id="empName" name="name" placeholder="Nguyễn Văn A" required />
+            </div>
+            <div class="form-group">
+              <label for="empEmail">Email <span class="required">*</span></label>
+              <input type="email" id="empEmail" name="email" placeholder="email@autocare.vn" required />
+            </div>
           </div>
-        </div>
-
-        <!-- Bảng đặt lịch -->
-        <div class="admin-section">
-          <h3>Lịch đặt dịch vụ</h3>
-          <div class="table-container">
-            <table class="admin-table" id="bookingsTable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Khách hàng</th>
-                  <th>Dịch vụ</th>
-                  <th>Ngày giờ</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                  <th>Nhân viên</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- JS sẽ thêm dữ liệu -->
-              </tbody>
-            </table>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empPhone">Số điện thoại <span class="required">*</span></label>
+              <input type="tel" id="empPhone" name="phone" placeholder="0901234567" required />
+            </div>
+            <div class="form-group">
+              <label for="empPosition">Chức vụ <span class="required">*</span></label>
+              <select id="empPosition" name="position" required>
+                <option value="">-- Chọn chức vụ --</option>
+                <option value="Kỹ thuật viên">Kỹ thuật viên</option>
+                <option value="Thợ rửa xe">Thợ rửa xe</option>
+                <option value="Quản lý">Quản lý</option>
+                <option value="Nhân viên tư vấn">Nhân viên tư vấn</option>
+                <option value="Kế toán">Kế toán</option>
+              </select>
+            </div>
           </div>
-        </div>
-
-        <!-- Bảng đơn hàng -->
-        <div class="admin-section">
-          <h3>Quản lý đơn hàng</h3>
-          <div class="table-container">
-            <table class="admin-table" id="ordersTable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Khách hàng</th>
-                  <th>Sản phẩm</th>
-                  <th>Tổng tiền</th>
-                  <th>Địa chỉ</th>
-                  <th>SĐT</th>
-                  <th>Ngày đặt</th>
-                  <th>Trạng thái</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- JS sẽ thêm dữ liệu -->
-              </tbody>
-            </table>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="empPassword">Mật khẩu <span class="required">*</span></label>
+              <input type="password" id="empPassword" name="password" placeholder="Tối thiểu 6 ký tự" required
+                minlength="6" />
+            </div>
+            <div class="form-group">
+              <label for="empStatus">Trạng thái</label>
+              <select id="empStatus" name="status">
+                <option value="Đang làm việc" selected>Đang làm việc</option>
+                <option value="Nghỉ phép">Nghỉ phép</option>
+                <option value="Tạm nghỉ">Tạm nghỉ</option>
+              </select>
+            </div>
           </div>
-        </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">
+              Tạo tài khoản
+            </button>
+            <button type="button" class="btn btn-secondary" id="cancelCreateBtn">
+              Hủy
+            </button>
+          </div>
+        </form>
+      </div>
 
-        <!-- Form tạo nhân viên -->
-        <div
-          class="admin-section"
-          id="createEmployeeSection"
-          style="display: none"
-        >
-          <h3>Tạo tài khoản nhân viên</h3>
-          <form id="createEmployeeForm" class="employee-form">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="empName"
-                  >Họ và tên <span class="required">*</span></label
-                >
-                <input
-                  type="text"
-                  id="empName"
-                  name="name"
-                  placeholder="Nguyễn Văn A"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="empEmail"
-                  >Email <span class="required">*</span></label
-                >
-                <input
-                  type="email"
-                  id="empEmail"
-                  name="email"
-                  placeholder="email@autocare.vn"
-                  required
-                />
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="empPhone"
-                  >Số điện thoại <span class="required">*</span></label
-                >
-                <input
-                  type="tel"
-                  id="empPhone"
-                  name="phone"
-                  placeholder="0901234567"
-                  required
-                />
-              </div>
-              <div class="form-group">
-                <label for="empPosition"
-                  >Chức vụ <span class="required">*</span></label
-                >
-                <select id="empPosition" name="position" required>
-                  <option value="">-- Chọn chức vụ --</option>
-                  <option value="Kỹ thuật viên">Kỹ thuật viên</option>
-                  <option value="Thợ rửa xe">Thợ rửa xe</option>
-                  <option value="Quản lý">Quản lý</option>
-                  <option value="Nhân viên tư vấn">Nhân viên tư vấn</option>
-                  <option value="Kế toán">Kế toán</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-row">
-              <div class="form-group">
-                <label for="empPassword"
-                  >Mật khẩu <span class="required">*</span></label
-                >
-                <input
-                  type="password"
-                  id="empPassword"
-                  name="password"
-                  placeholder="Tối thiểu 6 ký tự"
-                  required
-                  minlength="6"
-                />
-              </div>
-              <div class="form-group">
-                <label for="empStatus">Trạng thái</label>
-                <select id="empStatus" name="status">
-                  <option value="Đang làm việc" selected>Đang làm việc</option>
-                  <option value="Nghỉ phép">Nghỉ phép</option>
-                  <option value="Tạm nghỉ">Tạm nghỉ</option>
-                </select>
-              </div>
-            </div>
-            <div class="form-actions">
-              <button type="submit" class="btn btn-primary">
-                Tạo tài khoản
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                id="cancelCreateBtn"
-              >
-                Hủy
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <!-- Bảng quản lý nhân viên -->
-        <div class="admin-section">
-          <div
-            style="
+      <!-- Bảng quản lý nhân viên -->
+      <div class="admin-section">
+        <div style="
               display: flex;
               justify-content: space-between;
               align-items: center;
               margin-bottom: 1rem;
-            "
-          >
-            <h3>Quản lý nhân viên</h3>
-            <button
-              class="btn btn-primary btn-insert-staff"
-              id="showCreateFormBtn"
-              style="
+            ">
+          <h3>Quản lý nhân viên</h3>
+          <button class="btn btn-primary btn-insert-staff" id="showCreateFormBtn" style="
                 margin-top: 10px;
                 padding: 6px 14px;
                 border-radius: 10px;
@@ -275,152 +225,119 @@
                 cursor: pointer;
                 font-weight: 600;
                 transition: 0.2s ease;
-              "
-            >
-              + Tạo nhân viên mới
-            </button>
-          </div>
-          <div class="table-container">
-            <table class="admin-table" id="employeesTable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Họ tên</th>
-                  <th>Email</th>
-                  <th>SĐT</th>
-                  <th>Chức vụ</th>
-                  <th>Trạng thái</th>
-                  <th>Ngày vào làm</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- JS sẽ thêm dữ liệu -->
-              </tbody>
-            </table>
-          </div>
+              ">
+            + Tạo nhân viên mới
+          </button>
         </div>
+        <div class="table-container">
+          <table class="admin-table" id="employeesTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Họ tên</th>
+                <th>Email</th>
+                <th>SĐT</th>
+                <th>Chức vụ</th>
+                <th>Trạng thái</th>
+                <th>Ngày vào làm</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ thêm dữ liệu -->
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-        <!-- Quản lý sản phẩm -->
-        <div class="admin-section" id="productsSection" style="display: none">
-          <div
-            style="
+      <!-- Quản lý sản phẩm -->
+      <div class="admin-section" id="productsSection" style="display: none">
+        <div style="
               display: flex;
               justify-content: space-between;
               align-items: center;
               margin-bottom: 1rem;
-            "
-          >
-            <h3>Quản lý sản phẩm</h3>
-            <button class="btn btn-primary" id="showCreateProductFormBtn">
-              + Thêm sản phẩm
-            </button>
-          </div>
+            ">
+          <h3>Quản lý sản phẩm</h3>
+          <button class="btn btn-primary" id="showCreateProductFormBtn" style="
+                margin-top: 10px;
+                padding: 6px 14px;
+                border-radius: 10px;
+                background: #28a745;
+                color: white;
+                border: none;
+                cursor: pointer;
+                font-weight: 600;
+                transition: 0.2s ease;
+              ">
+            + Thêm sản phẩm
+          </button>
+        </div>
 
-          <!-- Form tạo/sửa sản phẩm -->
-          <div
-            id="productFormSection"
-            style="display: none; margin-bottom: 2rem"
-          >
-            <form
-              id="productForm"
-              class="product-form"
-              enctype="multipart/form-data"
-            >
-              <input type="hidden" id="productId" name="productId" />
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="productName"
-                    >Tên sản phẩm <span class="required">*</span></label
-                  >
-                  <input type="text" id="productName" name="name" required />
-                </div>
-                <div class="form-group">
-                  <label for="productPrice"
-                    >Giá (VNĐ) <span class="required">*</span></label
-                  >
-                  <input
-                    type="number"
-                    id="productPrice"
-                    name="price"
-                    min="0"
-                    step="0.01"
-                    required
-                  />
-                </div>
+        <!-- Form tạo/sửa sản phẩm -->
+        <div id="productFormSection" style="display: none; margin-bottom: 2rem">
+          <form id="productForm" class="product-form" enctype="multipart/form-data">
+            <input type="hidden" id="productId" name="productId" />
+            <div class="form-row">
+              <div class="form-group">
+                <label for="productName">Tên sản phẩm <span class="required">*</span></label>
+                <input type="text" id="productName" name="name" required />
               </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="productStock"
-                    >Số lượng <span class="required">*</span></label
-                  >
-                  <input
-                    type="number"
-                    id="productStock"
-                    name="stock"
-                    min="0"
-                    required
-                  />
-                </div>
-                <div class="form-group">
-                  <label for="productImage">Hình ảnh</label>
-                  <input
-                    type="file"
-                    id="productImage"
-                    name="image"
-                    accept="image/*"
-                  />
-                  <small
-                    >Chỉ chấp nhận file ảnh (jpg, png, gif, webp), tối đa
-                    5MB</small
-                  >
-                </div>
+              <div class="form-group">
+                <label for="productPrice">Giá (VNĐ) <span class="required">*</span></label>
+                <input type="number" id="productPrice" name="price" min="0" step="0.01" required />
               </div>
-              <div class="form-group full-width">
-                <label for="productDescription">Mô tả</label>
-                <textarea
-                  id="productDescription"
-                  name="description"
-                  rows="3"
-                ></textarea>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="productStock">Số lượng <span class="required">*</span></label>
+                <input type="number" id="productStock" name="stock" min="0" required />
               </div>
-              <div id="productImagePreview" style="margin-top: 1rem"></div>
-              <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Lưu</button>
-                <button
-                  type="button"
-                  class="btn btn-secondary"
-                  id="cancelProductFormBtn"
-                >
-                  Hủy
-                </button>
+              <div class="form-group">
+                <label for="productImage">Hình ảnh</label>
+                <input type="file" id="productImage" name="image" accept="image/*" />
+                <small>Chỉ chấp nhận file ảnh (jpg, png, gif, webp), tối đa
+                  5MB</small>
               </div>
-            </form>
-          </div>
+            </div>
+            <div class="form-group full-width">
+              <label for="productDescription">Mô tả</label>
+              <textarea id="productDescription" name="description" rows="3"></textarea>
+            </div>
+            <div id="productImagePreview" style="margin-top: 1rem"></div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Lưu</button>
+              <button type="button" class="btn btn-secondary" id="cancelProductFormBtn">
+                Hủy
+              </button>
+            </div>
+          </form>
+        </div>
 
-          <!-- Bảng sản phẩm -->
-          <div class="table-container">
-            <table class="admin-table" id="productsTable">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Hình ảnh</th>
-                  <th>Tên sản phẩm</th>
-                  <th>Giá</th>
-                  <th>Số lượng</th>
-                  <th>Mô tả</th>
-                  <th>Hành động</th>
-                </tr>
-              </thead>
-              <tbody>
-                <!-- JS sẽ thêm dữ liệu -->
-              </tbody>
-            </table>
-          </div>
+        <!-- Bảng sản phẩm -->
+        <div class="table-container">
+          <table class="admin-table" id="productsTable">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Hình ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Mô tả</th>
+                <th>Hành động</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- JS sẽ thêm dữ liệu -->
+            </tbody>
+          </table>
         </div>
       </div>
-    </main>
+    </div>
+  </main>
 
-    <script src="../js/admin.js"></script>
-  </body>
+  <script src="../js/admin.js"></script>
+</body>
+
 </html>

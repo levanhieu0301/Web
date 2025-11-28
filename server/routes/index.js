@@ -8,6 +8,7 @@ const userRoutes = require("./user");
 const staffRoutes = require("./staff");
 const productRoutes = require("./product");
 const orderRoutes = require("./order");
+const couponRoutes = require("./coupon");
 
 
 router.use("/auth", authRoutes);
@@ -17,5 +18,6 @@ router.use("/users", userRoutes);
 router.use("/staff", staffRoutes);
 router.use("/products", productRoutes);
 router.use("/orders", orderRoutes);
+router.use("/coupons", couponRoutes);
 
 module.exports = router;

@@ -18,6 +18,9 @@ db.OrderItem = require("./OrderItem.js");
 db.User.hasMany(db.Booking, { foreignKey: "user_id", as: "bookings" });
 db.Booking.belongsTo(db.User, { foreignKey: "user_id", as: "user" });
 
+// --- 2. QUAN HỆ NHÂN VIÊN (Quan trọng: Đang thiếu dòng này) ---
+// Đây là dòng giúp sửa lỗi 500 khi reload booking
+db.Booking.belongsTo(db.User, { foreignKey: "staff_id", as: "staff" });
 db.Booking.belongsToMany(db.User, {
   through: db.BookingAssignment,
   as: "assigned_staff",
@@ -30,6 +33,8 @@ db.User.belongsToMany(db.Booking, {
   foreignKey: "staff_id",
   otherKey: "booking_id"
 });
+
+
 
 db.Booking.hasOne(db.Invoice, { foreignKey: "booking_id", as: "invoice" });
 db.Invoice.belongsTo(db.Booking, { foreignKey: "booking_id", as: "booking" });

@@ -1,6 +1,7 @@
 // server/services/adminService.js
 const User = require("../models/User");
 const Booking = require("../models/Booking");
+const db = require("../models"); // <--- THÊM DÒNG NÀY
 
 // Lấy tất cả người dùng
 const getAllUsersService = async () => {
@@ -11,35 +12,58 @@ const getAllUsersService = async () => {
 
 // Lấy tất cả booking (bao gồm user + staff) để Admin quản lý
 const getAllBookingsService = async () => {
-  const bookings = await Booking.findAll({
-    include: [
-      { model: User, as: "user", attributes: ["id", "name", "email"] },
-      { model: User, as: "staff", attributes: ["id", "name", "email"] },
-    ],
-    order: [["created_at", "DESC"]],
-  });
-
-  // map lại dữ liệu để frontend dễ dùng
-  return bookings.map((b) => ({
-    id: b.id,
-    service: b.service,
-    car_brand: b.car_brand,
-    car_model: b.car_model,
-    appointment_date: b.appointment_date,
-    appointment_time: b.appointment_time,
-    status: b.status,
-    user_name: b.user?.name || "",
-    full_name: b.full_name || b.user?.name || "",
-    phone: b.phone,
-    email: b.email,
-    address: b.address,
-    notes: b.notes,
-    user_id: b.user_id,
-    staff_id: b.staff?.id || null,
-    staff_name: b.staff?.name || "—",
-    created_at: b.created_at,
-  }));
+  try {
+    const bookings = await db.Booking.findAll({
+      include: [
+        {
+          model: db.User,
+          as: "user", // <--- BẮT BUỘC PHẢI CÓ 'as' NÀY (để lấy thông tin khách đặt)
+          attributes: ["id", "name", "phone", "email"]
+        },
+        {
+          model: db.User,
+          as: "assigned_staff", // <--- Thêm cái này nếu muốn lấy cả nhân viên được phân công
+          attributes: ["id", "name"],
+          through: { attributes: [] } // Bỏ qua các trường bảng phụ nếu không cần
+        }
+      ],
+      order: [["created_at", "DESC"]]
+    });
+    return bookings;
+  } catch (error) {
+    throw error;
+  }
 };
+// const getAllBookingsService = async () => {
+//   const bookings = await Booking.findAll({
+//     include: [
+//       { model: User, as: "user", attributes: ["id", "name", "email"] },
+//       { model: User, as: "staff", attributes: ["id", "name", "email"] },
+//     ],
+//     order: [["created_at", "DESC"]],
+//   });
+
+//   // map lại dữ liệu để frontend dễ dùng
+//   return bookings.map((b) => ({
+//     id: b.id,
+//     service: b.service,
+//     car_brand: b.car_brand,
+//     car_model: b.car_model,
+//     appointment_date: b.appointment_date,
+//     appointment_time: b.appointment_time,
+//     status: b.status,
+//     user_name: b.user?.name || "",
+//     full_name: b.full_name || b.user?.name || "",
+//     phone: b.phone,
+//     email: b.email,
+//     address: b.address,
+//     notes: b.notes,
+//     user_id: b.user_id,
+//     staff_id: b.staff?.id || null,
+//     staff_name: b.staff?.name || "—",
+//     created_at: b.created_at,
+//   }));
+// };
 
 // Cập nhật trạng thái booking
 const updateBookingStatusService = async (id, status) => {

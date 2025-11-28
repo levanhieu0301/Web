@@ -47,22 +47,58 @@ const checkCoupon = async (req, res) => {
   }
 };
 
+// const deleteCoupon = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const coupon = await couponService.deactivateCoupon(id);
+//     res.json({
+//       message: "Đã vô hiệu hoá mã giảm giá.",
+//       data: coupon,
+//     });
+//   } catch (err) {
+//     res.status(400).json({ error: err.message });
+//   }
+// };
+// Xóa vĩnh viễn
 const deleteCoupon = async (req, res) => {
   const { id } = req.params;
   try {
-    const coupon = await couponService.deactivateCoupon(id);
-    res.json({
-      message: "Đã vô hiệu hoá mã giảm giá.",
-      data: coupon,
-    });
+    await couponService.deleteCouponPermanent(id);
+    res.json({ message: "Đã xóa mã giảm giá vĩnh viễn." });
+  } catch (err) {
+    res.status(500).json({ error: "Không thể xóa mã đã được sử dụng trong đơn hàng cũ." });
+  }
+};
+// Cập nhật mã
+const updateCoupon = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const updated = await couponService.updateCoupon(id, req.body);
+    res.json({ message: "Cập nhật thành công", data: updated });
   } catch (err) {
     res.status(400).json({ error: err.message });
   }
 };
+
+// Đổi trạng thái (Active <-> Inactive)
+const toggleStatus = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const coupon = await couponService.toggleStatus(id);
+    const statusText = coupon.is_active ? "được kích hoạt" : "bị vô hiệu hoá";
+    res.json({ message: `Mã đã ${statusText}`, data: coupon });
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+
 
 module.exports = {
   createCoupon,
   getAllCoupons,
   checkCoupon,
   deleteCoupon,
+  updateCoupon,
+  toggleStatus,
 };

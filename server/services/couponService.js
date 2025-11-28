@@ -122,10 +122,49 @@ const deactivateCoupon = async (id) => {
   await coupon.save();
   return coupon;
 };
+// 1. Cập nhật thông tin mã giảm giá
+const updateCoupon = async (id, updateData) => {
+  const coupon = await Coupon.findByPk(id);
+  if (!coupon) throw new Error("Không tìm thấy mã giảm giá.");
+
+  // Nếu sửa code, cần check trùng (trừ chính nó)
+  if (updateData.code && updateData.code !== coupon.code) {
+    const existing = await Coupon.findOne({ where: { code: updateData.code } });
+    if (existing) throw new Error("Mã giảm giá mới đã tồn tại.");
+  }
+
+  // Cập nhật dữ liệu
+  return await coupon.update(updateData);
+};
+
+// 2. Đổi trạng thái (Bật/Tắt)
+const toggleStatus = async (id) => {
+  const coupon = await Coupon.findByPk(id);
+  if (!coupon) throw new Error("Không tìm thấy mã giảm giá.");
+  
+  // Đảo ngược trạng thái hiện tại
+  coupon.is_active = !coupon.is_active;
+  await coupon.save();
+  return coupon;
+};
+
+// 3. Xóa vĩnh viễn
+const deleteCouponPermanent = async (id) => {
+  const coupon = await Coupon.findByPk(id);
+  if (!coupon) throw new Error("Không tìm thấy mã giảm giá.");
+  
+  // Lưu ý: Nếu mã này đã có trong bảng Invoice/Order, có thể lỗi ràng buộc khoá ngoại.
+  // Bạn nên dùng try-catch ở controller để bắt lỗi này.
+  await coupon.destroy();
+  return true;
+};
 
 module.exports = {
   createCoupon,
   getAllCoupons,
   validateAndCalculate,
   deactivateCoupon,
+  updateCoupon,
+  toggleStatus,
+  deleteCouponPermanent,
 };

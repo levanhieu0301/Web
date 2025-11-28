@@ -186,29 +186,33 @@ async function loadDiscounts() {
         coupon.max_usage !== null
           ? `${coupon.usage_count}/${coupon.max_usage}`
           : `${coupon.usage_count}`;
-
+      
+      
+      const toggleBtnText = coupon.is_active ? "Khóa" : "Mở";
+      const toggleBtnColor = coupon.is_active ? "orange" : "green";
       const row = document.createElement("tr");
       row.innerHTML = `
         <td><span class="discount-code">${coupon.code}</span></td>
-        <td>
-          <span class="discount-type ${coupon.type}">
-            ${typeText}
-          </span>
-        </td>
-        <td>
-          <span class="discount-value">${valueText}</span>
-        </td>
+        <td><span class="discount-type ${coupon.type}">${coupon.type === 'percentage' ? 'Phần trăm' : 'Cố định'}</span></td>
+        <td><span class="discount-value">${coupon.type === 'percentage' ? coupon.value + '%' : Number(coupon.value).toLocaleString() + 'đ'}</span></td>
         <td>${formatDate(coupon.start_date)}</td>
         <td>${formatDate(coupon.end_date)}</td>
-        <td>${usedText}</td>
-        <td><span class="status-${status}">${statusText}</span></td>
+        <td>${coupon.usage_count}/${coupon.max_usage || '∞'}</td>
+        <td><span class="status-${coupon.is_active ? 'active' : 'inactive'}">${coupon.is_active ? 'Hoạt động' : 'Đã khóa'}</span></td>
         <td>
-          ${status === "active"
-          ? `<button class="btn-delete" onclick="deleteDiscount(${coupon.id})">
-                  Khóa
-                </button>`
-          : "-"
-        }
+          <div style="display: flex; gap: 5px;">
+             <button class="btn-edit" onclick='openEditModal(${JSON.stringify(coupon)})' style="background: #007bff; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                <i class="fas fa-edit"></i> Sửa
+             </button>
+
+             <button onclick="toggleStatus(${coupon.id})" style="background: ${toggleBtnColor}; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                ${toggleBtnText}
+             </button>
+
+             <button onclick="deleteCouponPermanent(${coupon.id})" style="background: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 4px; cursor: pointer;">
+                Xóa
+             </button>
+          </div>
         </td>
       `;
       tbody.appendChild(row);
@@ -249,6 +253,100 @@ window.deleteDiscount = async function (id) {
     alert(err.message || "Lỗi vô hiệu hoá mã giảm giá");
   }
 };
+
+// 1. Xử lý Bật/Tắt trạng thái
+async function toggleStatus(id) {
+    if(!confirm("Bạn có muốn thay đổi trạng thái mã này?")) return;
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API_URL}/coupons/${id}/status`, {
+            method: "PATCH",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if(res.ok) {
+            alert("Đã cập nhật trạng thái!");
+            loadDiscounts();
+        } else {
+            alert("Lỗi khi cập nhật trạng thái");
+        }
+    } catch(e) { console.error(e); }
+}
+
+// 2. Xử lý Xóa vĩnh viễn
+async function deleteCouponPermanent(id) {
+    if(!confirm("CẢNH BÁO: Hành động này sẽ xóa vĩnh viễn mã giảm giá và không thể khôi phục. Bạn chắc chứ?")) return;
+    const token = localStorage.getItem("token");
+    try {
+        const res = await fetch(`${API_URL}/coupons/${id}`, {
+            method: "DELETE",
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        const data = await res.json();
+        if(res.ok) {
+            alert("Đã xóa thành công!");
+            loadDiscounts();
+        } else {
+            alert(data.error || "Không thể xóa mã (có thể do mã đã được sử dụng trong đơn hàng).");
+        }
+    } catch(e) { console.error(e); }
+}
+
+// 3. Xử lý Modal Sửa
+function openEditModal(coupon) {
+    const modal = document.getElementById("editCouponModal");
+    // Điền dữ liệu cũ vào form
+    document.getElementById("edit_id").value = coupon.id;
+    document.getElementById("edit_code").value = coupon.code;
+    document.getElementById("edit_type").value = coupon.type;
+    document.getElementById("edit_value").value = coupon.value;
+    // Format date cho input type="date" (YYYY-MM-DD)
+    document.getElementById("edit_start_date").value = new Date(coupon.start_date).toISOString().split('T')[0];
+    document.getElementById("edit_end_date").value = new Date(coupon.end_date).toISOString().split('T')[0];
+    
+    modal.style.display = "block";
+}
+
+function closeEditModal() {
+    document.getElementById("editCouponModal").style.display = "none";
+}
+
+// 4. Xử lý Submit Form Sửa
+document.getElementById("editCouponForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const id = document.getElementById("edit_id").value;
+    const token = localStorage.getItem("token");
+    
+    const payload = {
+        code: document.getElementById("edit_code").value,
+        type: document.getElementById("edit_type").value,
+        value: document.getElementById("edit_value").value,
+        start_date: document.getElementById("edit_start_date").value,
+        end_date: document.getElementById("edit_end_date").value,
+    };
+
+    try {
+        const res = await fetch(`${API_URL}/coupons/${id}`, {
+            method: "PUT",
+            headers: { 
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}` 
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        const data = await res.json();
+        if(res.ok) {
+            alert("Cập nhật thành công!");
+            closeEditModal();
+            loadDiscounts();
+        } else {
+            alert(data.error || "Lỗi cập nhật");
+        }
+    } catch(err) {
+        console.error(err);
+        alert("Lỗi kết nối");
+    }
+});
 
 // Format ngày
 function formatDate(dateStr) {
